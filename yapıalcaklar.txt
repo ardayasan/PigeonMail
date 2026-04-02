@@ -1,0 +1,7 @@
+watcher timeout mekanizması -> Arda
+smtp auth geliştirilecek -> Arda
+pop3 top komutu geliştirilecek -> Arda
+thunderbird'e kurulum denenecek -> Arda
+mobil weble uyumlu hale getirilecek, webdeki tüm özellikleri destekleyecek ve test edilecek -> Burak
+(baştan tasarım) -> Burak
+
