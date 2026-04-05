@@ -7,8 +7,63 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Constants from 'expo-constants';
 
-export const SERVER_URL = 'http://localhost:8080';
+const DEFAULT_API_PORT = 8080;
+
+function parseHost(hostString: string): string | null {
+  if (!hostString) return null;
+
+  const trimmed = hostString.trim();
+  if (!trimmed) return null;
+
+  // Handle exp:// URLs
+  if (trimmed.startsWith('exp://')) {
+    const withoutProtocol = trimmed.substring(6); // Remove 'exp://'
+    const hostPart = withoutProtocol.split(':')[0];
+    return hostPart || null;
+  }
+
+  // Handle http/https URLs
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    try {
+      // Simple parsing without URL constructor for RN compatibility
+      const withoutProtocol = trimmed.replace(/^https?:\/\//, '');
+      const hostPart = withoutProtocol.split('/')[0].split(':')[0];
+      return hostPart || null;
+    } catch {
+      // ignore invalid URL and continue
+    }
+  }
+
+  // Handle plain host:port format
+  const hostPart = trimmed.split(':')[0];
+  return hostPart || null;
+}
+
+function getServerHost(): string {
+  try {
+    const manifest: any = Constants?.manifest || Constants?.expoConfig || {};
+    const hostString =
+      manifest?.debuggerHost ||
+      manifest?.hostUri ||
+      manifest?.url ||
+      manifest?.bundleUrl;
+
+    const resolvedHost = parseHost(hostString);
+    if (resolvedHost && resolvedHost !== 'localhost' && resolvedHost !== '127.0.0.1') {
+      return resolvedHost;
+    }
+  } catch (error) {
+    console.warn('Failed to resolve API server host automatically', error);
+  }
+
+  return 'localhost';
+}
+
+export const SERVER_URL = `http://${getServerHost()}:${DEFAULT_API_PORT}`;
+
+console.log('API Server URL:', SERVER_URL); // Debug log
 
 // ---------------------------------------------------------------------------
 // Token storage
@@ -102,8 +157,11 @@ export interface MessageDetail extends MessageSummary {
   is_deleted: number;
 }
 
-export async function getMessages(category?: string): Promise<MessageSummary[]> {
-  const qs = category ? `?category=${encodeURIComponent(category)}` : '';
+export async function getMessages(mailbox?: string, category?: string): Promise<MessageSummary[]> {
+  const params: string[] = [];
+  if (mailbox) params.push(`mailbox=${encodeURIComponent(mailbox)}`);
+  if (category) params.push(`category=${encodeURIComponent(category)}`);
+  const qs = params.length ? `?${params.join('&')}` : '';
   return request<MessageSummary[]>('GET', `/messages${qs}`);
 }
 

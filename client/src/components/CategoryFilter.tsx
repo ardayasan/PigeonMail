@@ -1,6 +1,6 @@
 /**
  * src/components/CategoryFilter.tsx
- * Horizontal scrollable category pill bar.
+ * Tab-style category filter matching web list-tabs design.
  */
 
 import React from 'react';
@@ -9,16 +9,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-
-const CATEGORY_COLORS: Record<string, string> = {
-  Work:       '#1a73e8',
-  Personal:   '#34a853',
-  Spam:       '#ea4335',
-  Finance:    '#fbbc04',
-  Promotions: '#ff6d00',
-  Social:     '#9c27b0',
-};
+import { Colors, CATEGORY_COLORS, Spacing, Typography } from '../theme';
 
 interface Props {
   categories: string[];
@@ -27,48 +20,88 @@ interface Props {
 }
 
 export default function CategoryFilter({ categories, selected, onSelect }: Props) {
-  const all = ['All', ...categories];
+  if (categories.length === 0) return null;
+
+  const tabs = ['All', ...categories];
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={styles.scroll}
-      contentContainerStyle={styles.content}
-    >
-      {all.map((cat) => {
-        const isSelected = cat === 'All' ? selected === null : selected === cat;
-        const color = cat === 'All' ? '#555' : (CATEGORY_COLORS[cat] ?? '#555');
-        return (
-          <TouchableOpacity
-            key={cat}
-            style={[
-              styles.pill,
-              isSelected && { backgroundColor: color, borderColor: color },
-            ]}
-            onPress={() => onSelect(cat === 'All' ? null : cat)}
-          >
-            <Text style={[styles.pillText, isSelected && styles.pillTextSelected]}>
-              {cat}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.content}
+      >
+        {tabs.map((tab) => {
+          const isActive = tab === 'All' ? selected === null : selected === tab;
+          return (
+            <TouchableOpacity
+              key={tab}
+              style={[styles.tab, isActive && styles.tabActive]}
+              onPress={() => onSelect(tab === 'All' ? null : tab)}
+              activeOpacity={0.7}
+            >
+              {tab !== 'All' && (
+                <View
+                  style={[
+                    styles.dot,
+                    { backgroundColor: CATEGORY_COLORS[tab] ?? Colors.text3 },
+                  ]}
+                />
+              )}
+              <Text
+                style={[
+                  styles.tabText,
+                  isActive && styles.tabTextActive,
+                ]}
+              >
+                {tab}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+      <View style={styles.borderBottom} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: { flexGrow: 0 },
-  content: { paddingHorizontal: 16, paddingVertical: 10, gap: 8 },
-  pill: {
-    paddingHorizontal: 16,
-    paddingVertical: 7,
-    borderRadius: 20,
-    borderWidth: 1.5,
-    borderColor: '#ccc',
-    backgroundColor: '#fff',
+  container: {
+    backgroundColor: Colors.surface,
+    position: 'relative',
   },
-  pillText: { fontSize: 13, fontWeight: '500', color: '#555' },
-  pillTextSelected: { color: '#fff' },
+  content: {
+    paddingHorizontal: Spacing.base,
+    gap: Spacing.xs,
+  },
+  tab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 10,
+    paddingHorizontal: Spacing.md,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  tabActive: {
+    borderBottomColor: Colors.accent,
+  },
+  dot: {
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
+  },
+  tabText: {
+    fontSize: Typography.sm,
+    fontWeight: '500',
+    color: Colors.text3,
+  },
+  tabTextActive: {
+    color: Colors.accent,
+    fontWeight: '600',
+  },
+  borderBottom: {
+    height: 1,
+    backgroundColor: Colors.border,
+  },
 });

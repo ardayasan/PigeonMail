@@ -1,11 +1,11 @@
 /**
  * src/screens/RegisterScreen.tsx
+ * Redesigned to match Velox Mail web auth-screen.
  */
 
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -16,21 +16,28 @@ import {
 } from 'react-native';
 import { register } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { Colors, Radii, Shadows, Spacing, Typography } from '../theme';
 
 export default function RegisterScreen({ navigation }: any) {
   const { signIn } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
+    setError('');
     if (!username.trim() || !password.trim()) {
-      Alert.alert('Error', 'All fields are required.');
+      setError('All fields are required.');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.');
       return;
     }
     if (password !== confirm) {
-      Alert.alert('Error', 'Passwords do not match.');
+      setError('Passwords do not match.');
       return;
     }
     setLoading(true);
@@ -38,7 +45,7 @@ export default function RegisterScreen({ navigation }: any) {
       const res = await register(username.trim(), password.trim());
       await signIn(res.token, res.username);
     } catch (e: any) {
-      Alert.alert('Registration Failed', e.message ?? 'Unknown error');
+      setError(e.message ?? 'Unknown error');
     } finally {
       setLoading(false);
     }
@@ -50,50 +57,83 @@ export default function RegisterScreen({ navigation }: any) {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View style={styles.card}>
-        <Text style={styles.title}>Create Account</Text>
-        <Text style={styles.subtitle}>Join the mail server</Text>
+        {/* Dark header */}
+        <View style={styles.cardHeader}>
+          <View style={styles.logoIcon}>
+            <Text style={styles.logoEmoji}>✉️</Text>
+          </View>
+          <Text style={styles.cardTitle}>Pigeon Mail</Text>
+          <Text style={styles.cardSub}>Create your account</Text>
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          placeholderTextColor="#999"
-          autoCapitalize="none"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#999"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#999"
-          secureTextEntry
-          value={confirm}
-          onChangeText={setConfirm}
-          onSubmitEditing={handleRegister}
-        />
-
-        <TouchableOpacity
-          style={[styles.button, loading && styles.buttonDisabled]}
-          onPress={handleRegister}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Register</Text>
+        {/* Body */}
+        <View style={styles.cardBody}>
+          {error !== '' && (
+            <View style={styles.errorBox}>
+              <Text style={styles.errorText}>{error}</Text>
+            </View>
           )}
-        </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.link}>Already have an account? Sign In</Text>
-        </TouchableOpacity>
+          <View style={styles.field}>
+            <Text style={styles.fieldLabel}>Username</Text>
+            <TextInput
+              style={styles.fieldInput}
+              placeholder="e.g. alice"
+              placeholderTextColor={Colors.text3}
+              autoCapitalize="none"
+              autoComplete="username"
+              value={username}
+              onChangeText={setUsername}
+            />
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.fieldLabel}>Password</Text>
+            <TextInput
+              style={styles.fieldInput}
+              placeholder="••••••••"
+              placeholderTextColor={Colors.text3}
+              secureTextEntry
+              autoComplete="new-password"
+              value={password}
+              onChangeText={setPassword}
+            />
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.fieldLabel}>Confirm Password</Text>
+            <TextInput
+              style={styles.fieldInput}
+              placeholder="••••••••"
+              placeholderTextColor={Colors.text3}
+              secureTextEntry
+              autoComplete="new-password"
+              value={confirm}
+              onChangeText={setConfirm}
+              onSubmitEditing={handleRegister}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={[styles.submitBtn, loading && styles.submitBtnDisabled]}
+            onPress={handleRegister}
+            disabled={loading}
+            activeOpacity={0.8}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.submitBtnText}>Create account</Text>
+            )}
+          </TouchableOpacity>
+
+          <View style={styles.switchRow}>
+            <Text style={styles.switchText}>Already have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.switchLink}>Sign in</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -102,52 +142,114 @@ export default function RegisterScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f4f8',
+    backgroundColor: Colors.darkBg,
     justifyContent: 'center',
-    padding: 24,
+    padding: Spacing.xl,
   },
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 28,
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 4,
+    backgroundColor: Colors.surface,
+    borderRadius: Radii.xl,
+    overflow: 'hidden',
+    ...Shadows.xl,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#1a73e8',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    padding: 14,
-    fontSize: 15,
-    marginBottom: 14,
-    color: '#333',
-    backgroundColor: '#fafafa',
-  },
-  button: {
-    backgroundColor: '#1a73e8',
-    borderRadius: 10,
-    padding: 15,
+  cardHeader: {
+    backgroundColor: Colors.text1,
+    paddingTop: Spacing['2xl'],
+    paddingBottom: Spacing.xl,
+    paddingHorizontal: Spacing['2xl'],
     alignItems: 'center',
-    marginTop: 4,
-    marginBottom: 16,
   },
-  buttonDisabled: { opacity: 0.6 },
-  buttonText: { color: '#fff', fontWeight: '600', fontSize: 16 },
-  link: { textAlign: 'center', color: '#1a73e8', fontSize: 14 },
+  logoIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: Radii.lg,
+    backgroundColor: Colors.accent,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: Spacing.base,
+  },
+  logoEmoji: {
+    fontSize: 24,
+  },
+  cardTitle: {
+    fontSize: Typography['2xl'],
+    fontWeight: '700',
+    color: Colors.textInv,
+    letterSpacing: -0.6,
+    marginBottom: Spacing.xs,
+  },
+  cardSub: {
+    fontSize: Typography.base,
+    color: Colors.darkTextDim,
+  },
+  cardBody: {
+    paddingHorizontal: Spacing['2xl'],
+    paddingTop: Spacing.xl,
+    paddingBottom: Spacing['2xl'],
+  },
+  errorBox: {
+    backgroundColor: Colors.dangerSoft,
+    borderWidth: 1,
+    borderColor: 'rgba(239,68,68,0.2)',
+    borderRadius: Radii.md,
+    padding: Spacing.md,
+    marginBottom: Spacing.base,
+  },
+  errorText: {
+    fontSize: Typography.sm,
+    color: Colors.danger,
+  },
+  field: {
+    marginBottom: Spacing.base,
+  },
+  fieldLabel: {
+    fontSize: Typography.sm,
+    fontWeight: '600',
+    color: Colors.text2,
+    marginBottom: 6,
+    letterSpacing: -0.1,
+  },
+  fieldInput: {
+    width: '100%',
+    paddingVertical: 10,
+    paddingHorizontal: Spacing.base,
+    borderWidth: 1.5,
+    borderColor: Colors.border,
+    borderRadius: Radii.md,
+    fontSize: Typography.md,
+    color: Colors.text1,
+    backgroundColor: Colors.surfaceSoft,
+  },
+  submitBtn: {
+    width: '100%',
+    paddingVertical: 12,
+    backgroundColor: Colors.accent,
+    borderRadius: Radii.md,
+    alignItems: 'center',
+    marginTop: Spacing.sm,
+  },
+  submitBtnDisabled: {
+    opacity: 0.6,
+  },
+  submitBtnText: {
+    color: Colors.textInv,
+    fontWeight: '600',
+    fontSize: Typography.md,
+    letterSpacing: -0.1,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: Spacing.lg,
+  },
+  switchText: {
+    fontSize: Typography.sm,
+    color: Colors.text3,
+  },
+  switchLink: {
+    fontSize: Typography.sm,
+    color: Colors.accent,
+    fontWeight: '500',
+    textDecorationLine: 'underline',
+  },
 });

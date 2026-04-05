@@ -1,6 +1,6 @@
 /**
  * src/screens/MessageScreen.tsx
- * Full message view with delete and reply actions.
+ * Full message view redesigned to match Velox Mail web thread-pane.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -14,15 +14,17 @@ import {
   View,
 } from 'react-native';
 import { deleteMessage, getMessage, MessageDetail } from '../api/client';
-
-const CATEGORY_COLORS: Record<string, string> = {
-  Work:       '#1a73e8',
-  Personal:   '#34a853',
-  Spam:       '#ea4335',
-  Finance:    '#fbbc04',
-  Promotions: '#ff6d00',
-  Social:     '#9c27b0',
-};
+import {
+  Colors,
+  CATEGORY_COLORS,
+  avatarColor,
+  initials,
+  formatFullTime,
+  Radii,
+  Shadows,
+  Spacing,
+  Typography,
+} from '../theme';
 
 export default function MessageScreen({ route, navigation }: any) {
   const { id } = route.params as { id: number };
@@ -65,17 +67,29 @@ export default function MessageScreen({ route, navigation }: any) {
     });
   };
 
+  const handleForward = () => {
+    if (!message) return;
+    navigation.navigate('Compose', {
+      to: '',
+      subject: message.subject ? `Fwd: ${message.subject}` : '',
+    });
+  };
+
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#1a73e8" />
+      <View style={styles.loadingCenter}>
+        <ActivityIndicator size="small" color={Colors.accent} />
+        <Text style={styles.loadingText}>Loading…</Text>
       </View>
     );
   }
 
   if (!message) return null;
 
-  const badgeColor = message.category
+  const fromAddr = message.from_addr || (message as any).from || '';
+  const toAddr = message.to_addr || (message as any).to || '';
+  const avBg = avatarColor(fromAddr);
+  const catColor = message.category
     ? (CATEGORY_COLORS[message.category] ?? '#888')
     : null;
 
@@ -83,120 +97,237 @@ export default function MessageScreen({ route, navigation }: any) {
     <View style={styles.container}>
       {/* Toolbar */}
       <View style={styles.toolbar}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backText}>← Back</Text>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backBtn}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
         <View style={styles.toolbarActions}>
-          <TouchableOpacity onPress={handleReply} style={styles.actionBtn}>
-            <Text style={styles.actionText}>Reply</Text>
+          <TouchableOpacity
+            onPress={handleReply}
+            style={[styles.actionBtn, styles.actionBtnPrimary]}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.actionBtnPrimaryText}>↩ Reply</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleDelete} style={[styles.actionBtn, styles.deleteBtn]}>
-            <Text style={[styles.actionText, styles.deleteText]}>Delete</Text>
+          <TouchableOpacity
+            onPress={handleForward}
+            style={styles.actionBtn}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.actionBtnText}>↪ Forward</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleDelete}
+            style={styles.actionBtn}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.actionBtnDangerText}>🗑</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        {/* Subject */}
-        <Text style={styles.subject}>{message.subject || '(no subject)'}</Text>
-
-        {/* Category badge */}
-        {message.category && badgeColor && (
-          <View style={[styles.badge, { backgroundColor: badgeColor + '22', borderColor: badgeColor }]}>
-            <Text style={[styles.badgeText, { color: badgeColor }]}>{message.category}</Text>
-          </View>
-        )}
-
-        {/* Metadata */}
-        <View style={styles.metaCard}>
-          <MetaRow label="From" value={message.from_addr} />
-          <MetaRow label="To" value={message.to_addr} />
-          <MetaRow label="Date" value={message.received_at} />
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
+        {/* Thread header */}
+        <View style={styles.threadHeader}>
+          <Text style={styles.subject}>{message.subject || '(no subject)'}</Text>
+          {message.category && catColor && (
+            <View
+              style={[
+                styles.catPill,
+                {
+                  backgroundColor: catColor + '18',
+                  borderColor: catColor + '30',
+                },
+              ]}
+            >
+              <Text style={[styles.catPillText, { color: catColor }]}>
+                {message.category}
+              </Text>
+            </View>
+          )}
         </View>
 
-        {/* Body */}
-        <View style={styles.bodyCard}>
-          <Text style={styles.bodyText}>{message.body || '(empty message)'}</Text>
+        {/* Message card */}
+        <View style={styles.messageCard}>
+          {/* Message header */}
+          <View style={styles.msgHeader}>
+            <View style={[styles.msgAvatar, { backgroundColor: avBg }]}>
+              <Text style={styles.msgAvatarText}>{initials(fromAddr)}</Text>
+            </View>
+            <View style={styles.msgSenderBlock}>
+              <Text style={styles.msgFrom}>{fromAddr}</Text>
+              <Text style={styles.msgTo}>to {toAddr}</Text>
+            </View>
+            <Text style={styles.msgTime}>{formatFullTime(message.received_at)}</Text>
+          </View>
+          {/* Message body */}
+          <View style={styles.msgBody}>
+            <Text style={styles.bodyText}>
+              {message.body || '(empty message)'}
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </View>
   );
 }
 
-function MetaRow({ label, value }: { label: string; value: string }) {
-  return (
-    <View style={styles.metaRow}>
-      <Text style={styles.metaLabel}>{label}</Text>
-      <Text style={styles.metaValue} numberOfLines={1}>{value}</Text>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8f9fa' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.surfaceThread,
+  },
+  loadingCenter: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: Spacing.md,
+    backgroundColor: Colors.surfaceThread,
+  },
+  loadingText: {
+    fontSize: Typography.base,
+    color: Colors.text3,
+  },
+  /* Toolbar */
   toolbar: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     paddingTop: 56,
     paddingBottom: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: Spacing.base,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: Colors.border,
   },
-  backBtn: { paddingVertical: 4 },
-  backText: { color: '#1a73e8', fontSize: 16 },
-  toolbarActions: { flexDirection: 'row', gap: 8 },
-  actionBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    borderRadius: 8,
-    backgroundColor: '#f0f4f8',
-  },
-  deleteBtn: { backgroundColor: '#fde8e8' },
-  actionText: { color: '#1a73e8', fontWeight: '600', fontSize: 13 },
-  deleteText: { color: '#ea4335' },
-  scroll: { flex: 1 },
-  content: { padding: 20, gap: 16 },
-  subject: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#1a1a1a',
-    lineHeight: 30,
-  },
-  badge: {
-    alignSelf: 'flex-start',
-    borderRadius: 12,
-    borderWidth: 1,
-    paddingHorizontal: 12,
+  backBtn: {
     paddingVertical: 4,
+    paddingRight: Spacing.sm,
   },
-  badgeText: { fontSize: 13, fontWeight: '600' },
-  metaCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    gap: 8,
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 1,
+  backText: {
+    fontSize: 20,
+    color: Colors.text2,
   },
-  metaRow: { flexDirection: 'row', gap: 8 },
-  metaLabel: { width: 44, fontSize: 13, color: '#999', fontWeight: '600' },
-  metaValue: { flex: 1, fontSize: 13, color: '#333' },
-  bodyCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 1,
+  toolbarActions: {
+    flexDirection: 'row',
+    gap: 6,
   },
-  bodyText: { fontSize: 15, color: '#333', lineHeight: 24 },
+  actionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: Radii.md,
+    backgroundColor: Colors.surfaceSoft,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  actionBtnPrimary: {
+    backgroundColor: Colors.accent,
+    borderColor: 'transparent',
+  },
+  actionBtnText: {
+    fontSize: Typography.sm,
+    fontWeight: '500',
+    color: Colors.text2,
+  },
+  actionBtnPrimaryText: {
+    fontSize: Typography.sm,
+    fontWeight: '500',
+    color: Colors.textInv,
+  },
+  actionBtnDangerText: {
+    fontSize: 13,
+  },
+  /* Scroll */
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: Spacing.xl,
+    gap: Spacing.xl,
+  },
+  /* Thread header */
+  threadHeader: {
+    gap: Spacing.md,
+  },
+  subject: {
+    fontSize: Typography['2xl'],
+    fontWeight: '700',
+    color: Colors.text1,
+    letterSpacing: -0.6,
+    lineHeight: 28,
+  },
+  catPill: {
+    alignSelf: 'flex-start',
+    borderRadius: 9999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
+  catPillText: {
+    fontSize: Typography.sm,
+    fontWeight: '600',
+  },
+  /* Message card */
+  messageCard: {
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radii.lg,
+    overflow: 'hidden',
+    ...Shadows.xs,
+  },
+  msgHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.base,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  msgAvatar: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  msgAvatarText: {
+    color: Colors.textInv,
+    fontWeight: '600',
+    fontSize: Typography.md,
+  },
+  msgSenderBlock: {
+    flex: 1,
+  },
+  msgFrom: {
+    fontSize: Typography.md,
+    fontWeight: '600',
+    color: Colors.text1,
+    marginBottom: 2,
+  },
+  msgTo: {
+    fontSize: Typography.sm,
+    color: Colors.text3,
+  },
+  msgTime: {
+    fontSize: Typography.sm,
+    color: Colors.text3,
+  },
+  msgBody: {
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.lg,
+  },
+  bodyText: {
+    fontSize: Typography.md,
+    color: Colors.text1,
+    lineHeight: 24,
+  },
 });

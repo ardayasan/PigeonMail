@@ -74,7 +74,7 @@ def add_message(from_addr: str, to_addr: str, subject: str, body: str, raw_conte
     conn = _get_conn()
     cur = conn.execute(
         """INSERT INTO messages (from_addr, to_addr, subject, body, raw_content)
-           VALUES (?, ?, ?, ?, ?)""",
+            VALUES (?, ?, ?, ?, ?)""",
         (from_addr, to_addr, subject, body, raw_content),
     )
     conn.commit()
@@ -237,7 +237,7 @@ def get_categories(to_addr: str) -> list[str]:
     conn = _get_conn()
     rows = conn.execute(
         """SELECT DISTINCT category FROM messages
-           WHERE to_addr = ? AND is_deleted = 0 AND category IS NOT NULL""",
+            WHERE to_addr = ? AND is_deleted = 0 AND category IS NOT NULL""",
         (to_addr.lower(),),
     ).fetchall()
     return [r["category"] for r in rows]
