@@ -40,7 +40,7 @@ def _parse_address(arg: str) -> str | None:
     return None
 
 
-def _parse_headers(raw: str) -> tuple[str, str]:
+def _parse_headers(raw: str) -> tuple[str, str, list[dict]]:
     """
     Split a raw RFC 2822 / MIME message into (subject, body).
     Uses Python's email module to correctly decode base64 / quoted-printable bodies.
@@ -60,6 +60,7 @@ def _parse_headers(raw: str) -> tuple[str, str]:
             subject += part
 
     body = ""
+    attachments = []
     if msg.is_multipart():
         # Walk MIME parts, collect first text/plain
         for part in msg.walk():
@@ -68,7 +69,16 @@ def _parse_headers(raw: str) -> tuple[str, str]:
                 if payload:
                     charset = part.get_content_charset("utf-8") or "utf-8"
                     body = payload.decode(charset, errors="replace")
-                    break
+            elif part.get_filename():
+                filename = part.get_filename()
+                content_type = part.get_content_type()
+                payload = part.get_payload(decode=True)
+                if payload:
+                    attachments.append({
+                        "filename": filename,
+                        "content_type": content_type,
+                        "data": payload
+                    })
     else:
         payload = msg.get_payload(decode=True)
         if payload:
@@ -78,7 +88,7 @@ def _parse_headers(raw: str) -> tuple[str, str]:
             # Fallback: plain text with no encoding
             body = str(msg.get_payload())
 
-    return subject, body
+    return subject, body, attachments
 
 
 # ---------------------------------------------------------------------------
@@ -144,12 +154,14 @@ def _handle_client(conn: socket.socket, addr: tuple) -> None:
                             session.reset()
                             continue
 
-                        subject, body = _parse_headers(raw)
+                        subject, body, extracted_attachments = _parse_headers(raw)
 
                         for recipient in session.rcpt_to:
                             msg_id = db.add_message(
                                 session.mail_from, recipient, subject, body, raw_content=raw
                             )
+                            for att in extracted_attachments:
+                                db.add_attachment(msg_id, att["filename"], att["content_type"], att["data"])
                             logger.info(
                                 "Stored msg id=%d from=%s to=%s subject=%r",
                                 msg_id, session.mail_from, recipient, subject,

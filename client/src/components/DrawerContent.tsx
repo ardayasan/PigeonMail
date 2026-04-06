@@ -68,6 +68,14 @@ const TrashIcon = ({ size = 20, color = Colors.text2 }: { size?: number; color?:
   </Svg>
 );
 
+const SignOutIcon = ({ size = 14, color = Colors.text2 }: { size?: number; color?: string }) => (
+  <Svg width={size} height={size} fill="none" stroke={color} strokeWidth="2" viewBox="0 0 24 24">
+    <Path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+    <Polyline points="16 17 21 12 16 7"/>
+    <Line x1="21" y1="12" x2="9" y2="12"/>
+  </Svg>
+);
+
 /* ── Mailbox Configuration ── */
 const MAILBOXES = [
   { id: 'inbox',   label: 'Inbox',   icon: InboxIcon },
@@ -86,7 +94,6 @@ interface Props extends DrawerContentComponentProps {
   inboxCount: number;
   onSelectMailbox: (id: MailboxId) => void;
   onSelectCategory: (cat: string) => void;
-  onCompose: () => void;
 }
 
 export default function DrawerContent({
@@ -96,7 +103,6 @@ export default function DrawerContent({
   inboxCount,
   onSelectMailbox,
   onSelectCategory,
-  onCompose,
 }: Props) {
   const { username, signOut } = useAuth();
   const [categories, setCategories] = useState<string[]>([]);
@@ -115,11 +121,6 @@ export default function DrawerContent({
   const handleCategory = (cat: string) => {
     onSelectCategory(cat);
     navigation.closeDrawer();
-  };
-
-  const handleCompose = () => {
-    navigation.closeDrawer();
-    onCompose();
   };
 
   const initial = (username ?? '?')[0].toUpperCase();
@@ -200,8 +201,8 @@ export default function DrawerContent({
           <Text style={styles.userName} numberOfLines={1}>{username}</Text>
           <Text style={styles.userDomain} numberOfLines={1}>{username}@localhost</Text>
         </View>
-        <TouchableOpacity style={styles.composeBtnFooter} onPress={handleCompose} activeOpacity={0.85}>
-          <Text style={styles.composeBtnTextFooter}>Compose</Text>
+        <TouchableOpacity style={styles.signOutBtn} onPress={signOut} activeOpacity={0.7} hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+          <SignOutIcon size={14} color={Colors.darkTextDim} />
         </TouchableOpacity>
       </View>
     </View>
@@ -242,20 +243,13 @@ const styles = StyleSheet.create({
     marginLeft: Spacing.sm,
   },
 
-  /* Compose button */
-  composeBtnFooter: {
-    paddingHorizontal: Spacing.md,
-    paddingVertical: 9,
-    backgroundColor: Colors.accent,
-    borderRadius: Radii.md,
+  /* Sign out button */
+  signOutBtn: {
+    width: 28,
+    height: 28,
+    borderRadius: Radii.sm,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  composeBtnTextFooter: {
-    fontSize: Typography.base,
-    fontWeight: '600',
-    color: Colors.textInv,
-    letterSpacing: -0.1,
   },
 
   /* Scroll / nav area */

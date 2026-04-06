@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Svg, { Circle, Line, Path } from 'react-native-svg';
 import { getCategories, getMessages, MessageSummary } from '../api/client';
 import CategoryFilter from '../components/CategoryFilter';
 import MessageItem from '../components/MessageItem';
@@ -24,6 +25,20 @@ const MAILBOX_LABELS: Record<string, string> = {
   inbox: 'Inbox', sent: 'Sent', starred: 'Starred', spam: 'Spam', trash: 'Trash',
 };
 
+const SearchIcon = ({ size = 14, color = Colors.text3 }: { size?: number, color?: string }) => (
+  <Svg width={size} height={size} fill="none" stroke={color} strokeWidth="2" viewBox="0 0 24 24">
+    <Circle cx="11" cy="11" r="8"/>
+    <Line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </Svg>
+);
+
+const ListEmptyIcon = ({ size = 48, color = Colors.borderStrong }: { size?: number, color?: string }) => (
+  <Svg width={size} height={size} fill="none" stroke={color} strokeWidth="1.2" viewBox="0 0 24 24">
+    <Path d="M22 12h-6l-2 3H10l-2-3H2"/>
+    <Path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/>
+  </Svg>
+);
+
 export default function InboxScreen({ navigation }: any) {
   const { activeMailbox, activeCategory, setCategory, setInboxCount } = useMailbox();
   const [messages, setMessages] = useState<MessageSummary[]>([]);
@@ -31,6 +46,7 @@ export default function InboxScreen({ navigation }: any) {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -115,8 +131,8 @@ export default function InboxScreen({ navigation }: any) {
         </View>
 
         {/* Search bar */}
-        <View style={styles.searchBar}>
-          <Text style={styles.searchIcon}>🔍</Text>
+        <View style={[styles.searchBar, isSearchFocused && styles.searchBarFocused]}>
+          <SearchIcon size={14} color={Colors.text3} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search messages…"
@@ -125,6 +141,8 @@ export default function InboxScreen({ navigation }: any) {
             onChangeText={setSearch}
             autoCapitalize="none"
             autoCorrect={false}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setIsSearchFocused(false)}
           />
           {search !== '' && (
             <TouchableOpacity onPress={() => setSearch('')} style={styles.searchClear}>
@@ -153,14 +171,14 @@ export default function InboxScreen({ navigation }: any) {
         </View>
       ) : filtered.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyIcon}>📭</Text>
+          <ListEmptyIcon size={48} color={Colors.borderStrong} />
           <Text style={styles.emptyTitle}>
             {search ? 'No results found' : 'All clear'}
           </Text>
           <Text style={styles.emptySub}>
             {search
               ? `No messages match "${search}"`
-              : `No messages in ${title}`}
+              : 'No messages in this mailbox'}
           </Text>
         </View>
       ) : (
@@ -271,8 +289,8 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     marginBottom: Spacing.md,
   },
-  searchIcon: {
-    fontSize: 12,
+  searchBarFocused: {
+    borderColor: Colors.accent,
   },
   searchInput: {
     flex: 1,
@@ -317,7 +335,6 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
     paddingHorizontal: Spacing['3xl'],
   },
-  emptyIcon: { fontSize: 48 },
   emptyTitle: {
     fontSize: Typography.md,
     fontWeight: '600',

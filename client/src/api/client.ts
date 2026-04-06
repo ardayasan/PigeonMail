@@ -154,7 +154,9 @@ export interface MessageDetail extends MessageSummary {
   from_addr: string;
   to_addr: string;
   body: string;
+  raw_content?: string;
   is_deleted: number;
+  attachments?: { id: number; filename: string; content_type: string }[];
 }
 
 export async function getMessages(mailbox?: string, category?: string): Promise<MessageSummary[]> {

@@ -69,7 +69,6 @@ function DrawerNavigator() {
           inboxCount={inboxCount}
           onSelectMailbox={(id: MailboxId) => setMailbox(id)}
           onSelectCategory={(cat: string) => setCategory(cat)}
-          onCompose={() => props.navigation.navigate('Main', { screen: 'Compose' })}
         />
       )}
     >
