@@ -1,31 +1,45 @@
 """
-ai/classifier.py — AI classification pipeline.
+ai/classifier.py — Local AI classification pipeline.
 
 Classifies incoming emails into one of six labels:
     Work | Personal | Spam | Finance | Promotions | Social
 
-Uses the Anthropic Claude API (claude-haiku — fast and cheap for this task).
-Falls back to keyword heuristics if the API key is not set or the call fails.
-
-Setup:
-    pip3 install anthropic
-    export ANTHROPIC_API_KEY="sk-ant-..."
+Uses Hugging Face Transformers zero-shot classification (facebook/bart-large-mnli).
+Falls back to keyword heuristics if the model fails or is unavailable.
 """
 
 import logging
-import os
 import threading
 
 logger = logging.getLogger(__name__)
 
-VALID_LABELS = {"Work", "Personal", "Spam", "Finance", "Promotions", "Social"}
+VALID_LABELS = ["Work", "Personal", "Spam", "Finance", "Promotions", "Social"]
 
-_SYSTEM_PROMPT = (
-    "You are an email classifier. "
-    "Classify the given email into exactly one of these six categories: "
-    "Work, Personal, Spam, Finance, Promotions, Social. "
-    "Reply with only the category name — no explanation, no punctuation."
-)
+# Global variable for lazy loading the model pipeline
+_classifier_pipeline = None
+_pipeline_lock = threading.Lock()
+
+def _get_classifier():
+    """Lazy load the Hugging Face zero-shot classification pipeline."""
+    global _classifier_pipeline
+    if _classifier_pipeline is None:
+        with _pipeline_lock:
+            # Double check inside lock to prevent race conditions
+            if _classifier_pipeline is None:
+                try:
+                    from transformers import pipeline
+                    logger.info("Initializing Hugging Face zero-shot classifier (facebook/bart-large-mnli)...")
+                    _classifier_pipeline = pipeline(
+                        "zero-shot-classification",
+                        model="facebook/bart-large-mnli"
+                    )
+                except ImportError:
+                    logger.warning("'transformers' package not installed. Fallback to keywords will be used.")
+                    raise
+                except Exception as e:
+                    logger.error("Failed to load Hugging Face model: %s", e)
+                    raise
+    return _classifier_pipeline
 
 
 # ---------------------------------------------------------------------------
@@ -34,7 +48,7 @@ _SYSTEM_PROMPT = (
 
 def classify_async(msg_id: int, subject: str, body: str) -> None:
     """
-    Non-blocking entry point. Called by smtp/server.py and api/app.py
+    Non-blocking entry point. Called by smtp/server.py
     immediately after a message is stored in the DB.
     Spawns a daemon thread and returns.
     """
@@ -52,13 +66,11 @@ def classify_async(msg_id: int, subject: str, body: str) -> None:
 # ---------------------------------------------------------------------------
 
 def _classify(msg_id: int, subject: str, body: str) -> None:
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
-
-    if api_key:
-        category = _classify_with_llm(subject, body, api_key)
-    else:
+    try:
+        category = _classify_with_hf(subject, body)
+    except Exception as e:
         logger.warning(
-            "ANTHROPIC_API_KEY not set — using keyword fallback for msg %d", msg_id
+            "Hugging Face classification failed for msg %d (%s) — using keyword fallback.", msg_id, e
         )
         category = _keyword_classify(subject, body)
 
@@ -67,37 +79,27 @@ def _classify(msg_id: int, subject: str, body: str) -> None:
     logger.info("Message %d → '%s'", msg_id, category)
 
 
-def _classify_with_llm(subject: str, body: str, api_key: str) -> str:
-    """Call Claude claude-haiku-4-5 and return a validated category label."""
-    try:
-        import anthropic
-
-        client = anthropic.Anthropic(api_key=api_key)
-
-        user_content = f"Subject: {subject}\n\nBody:\n{body[:2000]}"
-
-        message = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=16,
-            system=_SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_content}],
-        )
-
-        raw = message.content[0].text.strip()
-        # Normalise capitalisation and validate
-        for label in VALID_LABELS:
-            if label.lower() == raw.lower():
-                return label
-
-        logger.warning("LLM returned unexpected label %r — using fallback", raw)
-        return _keyword_classify(subject, body)
-
-    except ImportError:
-        logger.warning("'anthropic' package not installed — pip3 install anthropic")
-        return _keyword_classify(subject, body)
-    except Exception as exc:
-        logger.error("LLM classification error: %s", exc)
-        return _keyword_classify(subject, body)
+def _classify_with_hf(subject: str, body: str) -> str:
+    """Call Hugging Face zero-shot pipeline and return the best category."""
+    classifier = _get_classifier()
+    
+    # Combine subject and body, truncate to avoid blowing up the token context window limit
+    # BART-large supports up to ~1024 tokens. 2500 chars is broadly safe.
+    text_to_classify = f"Subject: {subject}\n\nBody:\n{body}"[:2500]
+    
+    result = classifier(
+        text_to_classify,
+        candidate_labels=VALID_LABELS,
+        multi_label=False # Forces softmax across just these candidates
+    )
+    
+    # The pipeline sorts the labels by descending confidence score
+    top_label = result['labels'][0]
+    
+    if top_label not in VALID_LABELS:
+        raise ValueError(f"Extracted label {top_label} is not in VALID_LABELS")
+        
+    return top_label
 
 
 # ---------------------------------------------------------------------------
