@@ -21,5 +21,10 @@ LOCAL_DOMAIN = "localhost"
 # Maximum message size in bytes (10 MB)
 MAX_MESSAGE_SIZE = 10 * 1024 * 1024
 
+# Idle session limits for socket-based protocols
+SMTP_IDLE_TIMEOUT_SECONDS = 120
+SMTP_DATA_TIMEOUT_SECONDS = 180
+POP3_IDLE_TIMEOUT_SECONDS = 120
+
 # Secret used for REST API token generation
 API_SECRET = "change-me-in-production"

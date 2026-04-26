@@ -92,6 +92,7 @@ def _handle_client(conn: socket.socket, addr: tuple) -> None:
 
         buf = ""
         while True:
+            conn.settimeout(config.POP3_IDLE_TIMEOUT_SECONDS)
             chunk = conn.recv(4096)
             if not chunk:
                 break
@@ -246,6 +247,17 @@ def _handle_client(conn: socket.socket, addr: tuple) -> None:
                     else:
                         send("-ERR Unknown command")
 
+    except socket.timeout:
+        logger.info(
+            "POP3 session timed out after %ds in %s state [%s:%d]",
+            config.POP3_IDLE_TIMEOUT_SECONDS,
+            session.state,
+            *addr,
+        )
+        try:
+            send("-ERR Session timeout due to inactivity")
+        except OSError:
+            pass
     except (ConnectionResetError, BrokenPipeError):
         logger.info("POP3 client %s:%d disconnected", *addr)
     except Exception:
