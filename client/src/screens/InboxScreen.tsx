@@ -8,10 +8,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Keyboard,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Svg, { Circle, Line, Path } from 'react-native-svg';
@@ -40,9 +42,16 @@ const ListEmptyIcon = ({ size = 48, color = Colors.borderStrong }: { size?: numb
 );
 
 export default function InboxScreen({ navigation }: any) {
-  const { activeMailbox, activeCategory, setCategory, setInboxCount } = useMailbox();
+  const {
+    activeMailbox,
+    activeCategory,
+    categories,
+    setCategory,
+    setCategories,
+    setInboxCount,
+    syncMailboxMeta,
+  } = useMailbox();
   const [messages, setMessages] = useState<MessageSummary[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -56,13 +65,15 @@ export default function InboxScreen({ navigation }: any) {
       ]);
       setMessages(msgs);
       setCategories(cats);
-      // Update inbox count for the drawer badge
-      const unread = msgs.filter((m: any) => !m.is_read).length;
-      setInboxCount(unread > 0 ? unread : msgs.length);
+      if (activeMailbox === 'inbox' && !activeCategory) {
+        setInboxCount(msgs.filter((m) => !m.is_read).length);
+      } else {
+        await syncMailboxMeta();
+      }
     } catch (e) {
       console.error('Inbox fetch error:', e);
     }
-  }, [activeMailbox, activeCategory, setInboxCount]);
+  }, [activeMailbox, activeCategory, setCategories, setInboxCount, syncMailboxMeta]);
 
   useEffect(() => {
     setSearch('');
@@ -95,6 +106,7 @@ export default function InboxScreen({ navigation }: any) {
   const title = activeCategory ?? MAILBOX_LABELS[activeMailbox] ?? 'Inbox';
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
@@ -185,6 +197,8 @@ export default function InboxScreen({ navigation }: any) {
         <FlatList
           data={filtered}
           keyExtractor={(m) => String(m.id)}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
           renderItem={({ item }) => (
             <MessageItem
               message={item}
@@ -197,6 +211,7 @@ export default function InboxScreen({ navigation }: any) {
         />
       )}
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 

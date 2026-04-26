@@ -18,7 +18,8 @@ import {
   View,
 } from 'react-native';
 import Svg, { Circle, Path, Polyline } from 'react-native-svg';
-import { deleteMessage, getMessage, MessageDetail, SERVER_URL, loadAuth } from '../api/client';
+import { deleteMessage, getMessage, markRead, MessageDetail, SERVER_URL, loadAuth } from '../api/client';
+import { useMailbox } from '../context/MailboxContext';
 import {
   Colors,
   CATEGORY_COLORS,
@@ -75,6 +76,7 @@ const isPreviewable = (type?: string) => type?.startsWith('image/');
 
 export default function MessageScreen({ route, navigation }: any) {
   const { id } = route.params as { id: number };
+  const { syncMailboxMeta, triggerRefresh } = useMailbox();
   const [message, setMessage] = useState<MessageDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [showRaw, setShowRaw] = useState(false);
@@ -88,13 +90,25 @@ export default function MessageScreen({ route, navigation }: any) {
   useEffect(() => {
     setShowRaw(false);
     getMessage(id)
-      .then(setMessage)
+      .then(async (msg) => {
+        setMessage(msg);
+        if (!msg.is_read) {
+          try {
+            await markRead(id);
+            setMessage((current) => (current ? { ...current, is_read: true } : current));
+            await syncMailboxMeta();
+            triggerRefresh();
+          } catch {
+            // Keep showing the message even if the read-state update fails.
+          }
+        }
+      })
       .catch((e) => {
         Alert.alert('Error', e.message);
         navigation.goBack();
       })
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, navigation, syncMailboxMeta, triggerRefresh]);
 
   const handleDelete = () => {
     Alert.alert('Delete Message', 'Move this message to trash?', [
@@ -105,6 +119,8 @@ export default function MessageScreen({ route, navigation }: any) {
         onPress: async () => {
           try {
             await deleteMessage(id);
+            await syncMailboxMeta();
+            triggerRefresh();
             navigation.goBack();
           } catch (e: any) {
             Alert.alert('Error', e.message);

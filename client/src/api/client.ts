@@ -147,6 +147,10 @@ export interface MessageSummary {
   subject: string;
   received_at: string;
   category: string | null;
+  is_read?: boolean;
+  is_starred?: boolean;
+  is_deleted?: boolean;
+  has_attachments?: boolean;
 }
 
 export interface MessageDetail extends MessageSummary {
@@ -155,7 +159,7 @@ export interface MessageDetail extends MessageSummary {
   to_addr: string;
   body: string;
   raw_content?: string;
-  is_deleted: number;
+  is_deleted: boolean;
   attachments?: { id: number; filename: string; content_type: string }[];
 }
 
@@ -169,6 +173,10 @@ export async function getMessages(mailbox?: string, category?: string): Promise<
 
 export async function getMessage(id: number): Promise<MessageDetail> {
   return request<MessageDetail>('GET', `/messages/${id}`);
+}
+
+export async function markRead(id: number): Promise<{ status: string }> {
+  return request('POST', `/messages/${id}/read`);
 }
 
 export async function sendMessage(
@@ -185,4 +193,8 @@ export async function deleteMessage(id: number): Promise<void> {
 
 export async function getCategories(): Promise<string[]> {
   return request<string[]>('GET', '/messages/categories');
+}
+
+export async function getStats(): Promise<{ inbox: number }> {
+  return request<{ inbox: number }>('GET', '/messages/stats');
 }

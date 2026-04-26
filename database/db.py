@@ -19,11 +19,22 @@ _SCHEMA_PATH = Path(__file__).parent / "schema.sql"
 def _get_conn() -> sqlite3.Connection:
     """Return the thread-local SQLite connection, creating it on first use."""
     if not hasattr(_local, "conn") or _local.conn is None:
+        db_dir = os.path.dirname(config.DB_PATH)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)
         _local.conn = sqlite3.connect(config.DB_PATH, check_same_thread=False)
         _local.conn.row_factory = sqlite3.Row
         _local.conn.execute("PRAGMA journal_mode=WAL")
         _local.conn.execute("PRAGMA foreign_keys=ON")
     return _local.conn
+
+
+def close_conn() -> None:
+    """Close the current thread's SQLite connection, if one exists."""
+    conn = getattr(_local, "conn", None)
+    if conn is not None:
+        conn.close()
+        _local.conn = None
 
 
 def init_db() -> None:

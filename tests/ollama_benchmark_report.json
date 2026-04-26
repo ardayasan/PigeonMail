@@ -1,0 +1,2465 @@
+{
+  "total_cases": 100,
+  "correct_cases": 94,
+  "accuracy": 0.94,
+  "total_runtime_ms": 55211.93,
+  "average_latency_ms": 552.1,
+  "per_label": {
+    "Work": {
+      "tp": 16,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.9412,
+      "recall": 0.9412,
+      "f1": 0.9412
+    },
+    "Personal": {
+      "tp": 15,
+      "fp": 1,
+      "fn": 2,
+      "precision": 0.9375,
+      "recall": 0.8824,
+      "f1": 0.9091
+    },
+    "Spam": {
+      "tp": 14,
+      "fp": 0,
+      "fn": 3,
+      "precision": 1.0,
+      "recall": 0.8235,
+      "f1": 0.9032
+    },
+    "Finance": {
+      "tp": 17,
+      "fp": 4,
+      "fn": 0,
+      "precision": 0.8095,
+      "recall": 1.0,
+      "f1": 0.8947
+    },
+    "Promotions": {
+      "tp": 16,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Social": {
+      "tp": 16,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "confusion_matrix": {
+    "Work": {
+      "Work": 16,
+      "Personal": 0,
+      "Spam": 0,
+      "Finance": 1,
+      "Promotions": 0,
+      "Social": 0
+    },
+    "Personal": {
+      "Work": 1,
+      "Personal": 15,
+      "Spam": 0,
+      "Finance": 1,
+      "Promotions": 0,
+      "Social": 0
+    },
+    "Spam": {
+      "Work": 0,
+      "Personal": 1,
+      "Spam": 14,
+      "Finance": 2,
+      "Promotions": 0,
+      "Social": 0
+    },
+    "Finance": {
+      "Work": 0,
+      "Personal": 0,
+      "Spam": 0,
+      "Finance": 17,
+      "Promotions": 0,
+      "Social": 0
+    },
+    "Promotions": {
+      "Work": 0,
+      "Personal": 0,
+      "Spam": 0,
+      "Finance": 0,
+      "Promotions": 16,
+      "Social": 0
+    },
+    "Social": {
+      "Work": 0,
+      "Personal": 0,
+      "Spam": 0,
+      "Finance": 0,
+      "Promotions": 0,
+      "Social": 16
+    }
+  },
+  "wrong_cases": [
+    {
+      "id": "W08",
+      "expected": "Work",
+      "subject": "Receipt and expense item",
+      "body": "I saw the dinner receipt. More importantly, finance needs the expense summary and trip report uploaded before the conference reimbursement closes.",
+      "tags": [
+        "receipt",
+        "corporate_expense"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1.22,
+      "is_correct": false
+    },
+    {
+      "id": "P04",
+      "expected": "Personal",
+      "subject": "Concert ticket",
+      "body": "I still have the extra concert ticket if you want it. We can go together and grab dinner before the show.",
+      "tags": [
+        "ticket_word",
+        "events"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.83,
+      "is_correct": false
+    },
+    {
+      "id": "P05",
+      "expected": "Personal",
+      "subject": "Small refund",
+      "body": "The cafe refunded me for the wrong order, so your part is even smaller now. We can sort it out whenever we meet.",
+      "tags": [
+        "refund_word",
+        "friends"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1.0,
+      "is_correct": false
+    },
+    {
+      "id": "S07",
+      "expected": "Spam",
+      "subject": "Important tax message",
+      "body": "A pending tax refund cannot be released until you validate your payment card and address through the secure confirmation page.",
+      "tags": [
+        "refund",
+        "fraud"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.78,
+      "is_correct": false
+    },
+    {
+      "id": "S08",
+      "expected": "Spam",
+      "subject": "Document shared with you",
+      "body": "A private document has been shared with you. Open the attachment and enable access so the encrypted content can be viewed.",
+      "tags": [
+        "attachment_bait",
+        "malicious"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1052.96,
+      "is_correct": false
+    },
+    {
+      "id": "S13",
+      "expected": "Spam",
+      "subject": "Urgent assistance needed",
+      "body": "I am stuck abroad and need a wire transfer quickly. Please reply before contacting anyone else because this is confidential.",
+      "tags": [
+        "impersonation",
+        "wire_transfer"
+      ],
+      "actual": "Finance",
+      "latency_ms": 3.55,
+      "is_correct": false
+    }
+  ],
+  "tag_breakdown": [
+    {
+      "tag": "account_balance",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "account_language",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "adjustment",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "admin_work",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "affection",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "api",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "attachment_bait",
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    {
+      "tag": "bait",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "balance",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "bank",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "banking",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "belongings",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "beneficiary",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "book",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "bundle",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "card",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "care",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "casual",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "casual_tone",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "charge",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "chargeback",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "classic_spam",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "client",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "club",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "code",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "comment",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "comments",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "community",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "confidential",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "confirmation",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "connect",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "coordination",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "corporate_expense",
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    {
+      "tag": "coupon",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "creator",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "credential_harvest",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "credit",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "crypto",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "deliverable",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "delivery_scam",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "deposit",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "design_review",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "dinner",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "discount",
+      "count": 3,
+      "correct": 3,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "discussion",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "education_marketing",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "engagement",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "engineering",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "events",
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    {
+      "tag": "exclusive_offer",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "failed_payment",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "family",
+      "count": 4,
+      "correct": 4,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "favor",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "fine_word",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "flash_sale",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "follow_up",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "followers",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "fraud",
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    {
+      "tag": "fraud_team",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "friendly",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "friends",
+      "count": 3,
+      "correct": 2,
+      "accuracy": 0.6667
+    },
+    {
+      "tag": "funds",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "gaming",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "giveaway",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "group_invite",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "health_nonmedical",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "hiring",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "home",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "identity",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "impersonation",
+      "count": 2,
+      "correct": 1,
+      "accuracy": 0.5
+    },
+    {
+      "tag": "incident",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "informal",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "invitation",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "invite",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "invoice",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "keys",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "late_reply",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "legal",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "likes",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "limited_time",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "linkedin_style",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "loan",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "lottery",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "malicious",
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    {
+      "tag": "marketing",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "meeting",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "member_benefits",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "membership",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "mentioned",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "mentions",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "messages",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "mixed_personal",
+      "count": 3,
+      "correct": 3,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "monthly",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "network",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "newsletter",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "notes",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "notification",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "offer",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "password_reset",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "payment",
+      "count": 3,
+      "correct": 3,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "payout",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "personal_context",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "personalized_marketing",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "pets",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "phishing",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "photo_app",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "photos",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "planning",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "plans",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "platform",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "policy",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "post",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "pricing",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "professional_social",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "profile",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "project",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "promo_code",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "receipt",
+      "count": 5,
+      "correct": 4,
+      "accuracy": 0.8
+    },
+    {
+      "tag": "refund",
+      "count": 2,
+      "correct": 1,
+      "accuracy": 0.5
+    },
+    {
+      "tag": "refund_word",
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    {
+      "tag": "reimbursement",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "release",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "renewal",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "replies",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "report",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "retail",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "reward",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "rewards",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "romantic",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "sale",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "schedule_word",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "security_notice",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "seller",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "shipping",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "shopping",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "small_fee",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "sprint",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "statement",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "story",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "subscription",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "subscription_marketing",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "support",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "suspension",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "tagged",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "task_management",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "tax",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "technical",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "thread",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "ticket_word",
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    {
+      "tag": "timeline",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "travel",
+      "count": 3,
+      "correct": 3,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "travel_offer",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "unsubscribe",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "urgency",
+      "count": 3,
+      "correct": 3,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "vendor",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "verification",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "voicemail",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "weekend",
+      "count": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "wire_transfer",
+      "count": 2,
+      "correct": 1,
+      "accuracy": 0.5
+    },
+    {
+      "tag": "wishlist",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    {
+      "tag": "work_word",
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    }
+  ],
+  "prediction_counts": {
+    "Work": 17,
+    "Finance": 21,
+    "Personal": 16,
+    "Spam": 14,
+    "Promotions": 16,
+    "Social": 16
+  },
+  "results": [
+    {
+      "id": "W01",
+      "expected": "Work",
+      "subject": "Quick check before tomorrow",
+      "body": "Can you review the updated project notes before tomorrow morning? If we do not close the open ticket today, the milestone will slip and the client call will be awkward.",
+      "tags": [
+        "casual_tone",
+        "project"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.83,
+      "is_correct": true
+    },
+    {
+      "id": "W02",
+      "expected": "Work",
+      "subject": "Small favor",
+      "body": "This is informal, but please leave comments on the pull request when you get time. The backend team said the integration tests were flaky again.",
+      "tags": [
+        "casual_tone",
+        "engineering"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.66,
+      "is_correct": true
+    },
+    {
+      "id": "W03",
+      "expected": "Work",
+      "subject": "Lunch and roadmap",
+      "body": "Lunch was great. Separately, can you send the revised roadmap and confirm whether the deployment window still starts Friday night?",
+      "tags": [
+        "mixed_personal",
+        "planning"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.5,
+      "is_correct": true
+    },
+    {
+      "id": "W04",
+      "expected": "Work",
+      "subject": "About the draft",
+      "body": "I attached the draft from the client workshop. We need to align on deliverables, budget assumptions, and the meeting agenda before the director joins.",
+      "tags": [
+        "client",
+        "deliverable"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.63,
+      "is_correct": true
+    },
+    {
+      "id": "W05",
+      "expected": "Work",
+      "subject": "Weekend note",
+      "body": "Sorry to message on the weekend, but the production incident reopened the same issue and support created another ticket. Please help triage before Monday.",
+      "tags": [
+        "weekend",
+        "incident"
+      ],
+      "actual": "Work",
+      "latency_ms": 4097.56,
+      "is_correct": true
+    },
+    {
+      "id": "W06",
+      "expected": "Work",
+      "subject": "Can we talk tonight?",
+      "body": "Tonight works for me. Also, could you confirm the sprint scope and assign the remaining tasks before standup?",
+      "tags": [
+        "mixed_personal",
+        "sprint"
+      ],
+      "actual": "Work",
+      "latency_ms": 1058.78,
+      "is_correct": true
+    },
+    {
+      "id": "W07",
+      "expected": "Work",
+      "subject": "Draft from Sam",
+      "body": "Sam made a few edits to the report. I still need your review of the budget slide, timeline, and handoff notes for the office presentation.",
+      "tags": [
+        "report",
+        "timeline"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.52,
+      "is_correct": true
+    },
+    {
+      "id": "W08",
+      "expected": "Work",
+      "subject": "Receipt and expense item",
+      "body": "I saw the dinner receipt. More importantly, finance needs the expense summary and trip report uploaded before the conference reimbursement closes.",
+      "tags": [
+        "receipt",
+        "corporate_expense"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1.22,
+      "is_correct": false
+    },
+    {
+      "id": "W09",
+      "expected": "Work",
+      "subject": "Morning follow-up",
+      "body": "No pressure, but can you confirm who is joining the customer call and whether the milestone needs to move after yesterday's bug review?",
+      "tags": [
+        "follow_up",
+        "client"
+      ],
+      "actual": "Work",
+      "latency_ms": 904.03,
+      "is_correct": true
+    },
+    {
+      "id": "W10",
+      "expected": "Work",
+      "subject": "Question on notes",
+      "body": "The notes looked fine. What I still need is the final agenda, the open action items, and the status update for the release meeting.",
+      "tags": [
+        "notes",
+        "meeting"
+      ],
+      "actual": "Work",
+      "latency_ms": 1.06,
+      "is_correct": true
+    },
+    {
+      "id": "W11",
+      "expected": "Work",
+      "subject": "When you have a minute",
+      "body": "Can you review the API contract and check whether the mobile team got the latest schema before the integration test run?",
+      "tags": [
+        "api",
+        "coordination"
+      ],
+      "actual": "Work",
+      "latency_ms": 1057.38,
+      "is_correct": true
+    },
+    {
+      "id": "W12",
+      "expected": "Work",
+      "subject": "Coffee later",
+      "body": "Coffee later sounds good. Before that, I need the revised job description and candidate feedback entered into the hiring tracker.",
+      "tags": [
+        "informal",
+        "hiring"
+      ],
+      "actual": "Work",
+      "latency_ms": 997.67,
+      "is_correct": true
+    },
+    {
+      "id": "W13",
+      "expected": "Work",
+      "subject": "Travel details",
+      "body": "I booked the train. Please still submit the travel approval and the customer visit summary in the shared folder.",
+      "tags": [
+        "travel",
+        "admin_work"
+      ],
+      "actual": "Work",
+      "latency_ms": 928.33,
+      "is_correct": true
+    },
+    {
+      "id": "W14",
+      "expected": "Work",
+      "subject": "One more thing",
+      "body": "One more thing: the vendor wants a signed copy today, and legal asked us to incorporate the comments from the contract review meeting.",
+      "tags": [
+        "vendor",
+        "legal"
+      ],
+      "actual": "Work",
+      "latency_ms": 1045.41,
+      "is_correct": true
+    },
+    {
+      "id": "W15",
+      "expected": "Work",
+      "subject": "Re: photos",
+      "body": "The photos were great. Also, the design team needs your feedback on the mockups before tomorrow's cross-functional review.",
+      "tags": [
+        "mixed_personal",
+        "design_review"
+      ],
+      "actual": "Work",
+      "latency_ms": 824.45,
+      "is_correct": true
+    },
+    {
+      "id": "W16",
+      "expected": "Work",
+      "subject": "Status update",
+      "body": "We are still blocked by the data migration script. Once that is stable, the release checklist and rollback plan can be finalized.",
+      "tags": [
+        "technical",
+        "release"
+      ],
+      "actual": "Work",
+      "latency_ms": 840.15,
+      "is_correct": true
+    },
+    {
+      "id": "W17",
+      "expected": "Work",
+      "subject": "Friendly reminder",
+      "body": "Friendly reminder to update the report, close the assigned tasks, and bring the final numbers to the planning meeting.",
+      "tags": [
+        "friendly",
+        "task_management"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.49,
+      "is_correct": true
+    },
+    {
+      "id": "P01",
+      "expected": "Personal",
+      "subject": "Sunday plan",
+      "body": "Are you still free on Sunday? I found the receipt from dinner last week and can send the amount later, but no rush. I still have your jacket here.",
+      "tags": [
+        "receipt",
+        "friends"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1019.12,
+      "is_correct": true
+    },
+    {
+      "id": "P02",
+      "expected": "Personal",
+      "subject": "About the camera",
+      "body": "I finally found your old camera and the blue scarf. If you come by this weekend, we can cook and catch up properly.",
+      "tags": [
+        "weekend",
+        "belongings"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1041.82,
+      "is_correct": true
+    },
+    {
+      "id": "P03",
+      "expected": "Personal",
+      "subject": "Miss you",
+      "body": "I know your schedule is packed, but I miss you. Let me know if you want to meet after your trip and celebrate your birthday late.",
+      "tags": [
+        "affection",
+        "schedule_word"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1077.75,
+      "is_correct": true
+    },
+    {
+      "id": "P04",
+      "expected": "Personal",
+      "subject": "Concert ticket",
+      "body": "I still have the extra concert ticket if you want it. We can go together and grab dinner before the show.",
+      "tags": [
+        "ticket_word",
+        "events"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.83,
+      "is_correct": false
+    },
+    {
+      "id": "P05",
+      "expected": "Personal",
+      "subject": "Small refund",
+      "body": "The cafe refunded me for the wrong order, so your part is even smaller now. We can sort it out whenever we meet.",
+      "tags": [
+        "refund_word",
+        "friends"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1.0,
+      "is_correct": false
+    },
+    {
+      "id": "P06",
+      "expected": "Personal",
+      "subject": "Family dinner",
+      "body": "Mom asked whether you are joining family dinner on Friday. If not, I will save you some cake and bring over the book you wanted.",
+      "tags": [
+        "family",
+        "dinner"
+      ],
+      "actual": "Personal",
+      "latency_ms": 944.5,
+      "is_correct": true
+    },
+    {
+      "id": "P07",
+      "expected": "Personal",
+      "subject": "Dog update",
+      "body": "The dog is fine now and finally eating normally again. Thanks for checking in and for sending that sweet message earlier.",
+      "tags": [
+        "pets",
+        "care"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1076.44,
+      "is_correct": true
+    },
+    {
+      "id": "P08",
+      "expected": "Personal",
+      "subject": "Trip photos",
+      "body": "I uploaded the trip photos and the one of you by the lake is still my favorite. Let me know if you want the originals.",
+      "tags": [
+        "photos",
+        "travel"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1007.6,
+      "is_correct": true
+    },
+    {
+      "id": "P09",
+      "expected": "Personal",
+      "subject": "Late reply",
+      "body": "Sorry for the late reply. I was with my cousin all day helping her move, and I just saw your message about brunch.",
+      "tags": [
+        "late_reply",
+        "family"
+      ],
+      "actual": "Personal",
+      "latency_ms": 942.4,
+      "is_correct": true
+    },
+    {
+      "id": "P10",
+      "expected": "Personal",
+      "subject": "Apartment keys",
+      "body": "Do you still have the spare apartment keys? I need them before my sister arrives tomorrow evening.",
+      "tags": [
+        "keys",
+        "family"
+      ],
+      "actual": "Personal",
+      "latency_ms": 969.88,
+      "is_correct": true
+    },
+    {
+      "id": "P11",
+      "expected": "Personal",
+      "subject": "Quick favor",
+      "body": "Can you water the plants while I am away? The instructions are on the fridge next to the leftover soup.",
+      "tags": [
+        "home",
+        "favor"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1005.95,
+      "is_correct": true
+    },
+    {
+      "id": "P12",
+      "expected": "Personal",
+      "subject": "Movie night",
+      "body": "Movie night still on? I can bring snacks, and we can finally finish the series everyone keeps spoiling for us.",
+      "tags": [
+        "plans",
+        "casual"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1022.19,
+      "is_correct": true
+    },
+    {
+      "id": "P13",
+      "expected": "Personal",
+      "subject": "Thanks again",
+      "body": "Thanks again for helping me after the doctor appointment. I felt much calmer once you got there.",
+      "tags": [
+        "support",
+        "health_nonmedical"
+      ],
+      "actual": "Personal",
+      "latency_ms": 987.84,
+      "is_correct": true
+    },
+    {
+      "id": "P14",
+      "expected": "Personal",
+      "subject": "Re: your note",
+      "body": "Your note made my whole day. We should take a train somewhere quiet next month and switch our phones off.",
+      "tags": [
+        "romantic",
+        "travel"
+      ],
+      "actual": "Personal",
+      "latency_ms": 996.4,
+      "is_correct": true
+    },
+    {
+      "id": "P15",
+      "expected": "Personal",
+      "subject": "Library fine",
+      "body": "I paid the tiny library fine, so you do not need to worry about it. Please just remind me where you put the novel.",
+      "tags": [
+        "fine_word",
+        "book"
+      ],
+      "actual": "Personal",
+      "latency_ms": 904.82,
+      "is_correct": true
+    },
+    {
+      "id": "P16",
+      "expected": "Personal",
+      "subject": "Neighbors",
+      "body": "The neighbors finally stopped drilling, so you can come over and work from here if you want. I will make coffee.",
+      "tags": [
+        "work_word",
+        "personal_context"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1090.35,
+      "is_correct": true
+    },
+    {
+      "id": "P17",
+      "expected": "Personal",
+      "subject": "Check-in",
+      "body": "No rush on replying. I just wanted to ask how your dad is doing and whether you need anything this week.",
+      "tags": [
+        "care",
+        "family"
+      ],
+      "actual": "Personal",
+      "latency_ms": 851.73,
+      "is_correct": true
+    },
+    {
+      "id": "S01",
+      "expected": "Spam",
+      "subject": "Final verification notice",
+      "body": "We identified unusual activity associated with your account and limited access to secure features. To avoid interruption, verify your information today using the secure portal below.",
+      "tags": [
+        "phishing",
+        "verification"
+      ],
+      "actual": "Spam",
+      "latency_ms": 0.69,
+      "is_correct": true
+    },
+    {
+      "id": "S02",
+      "expected": "Spam",
+      "subject": "You have won a reward",
+      "body": "Congratulations, you have been selected for an exclusive reward. Claim your prize now before the confirmation window closes.",
+      "tags": [
+        "reward",
+        "urgency"
+      ],
+      "actual": "Spam",
+      "latency_ms": 0.47,
+      "is_correct": true
+    },
+    {
+      "id": "S03",
+      "expected": "Spam",
+      "subject": "Security notice regarding login",
+      "body": "Suspicious activity was detected on your account credentials. Re-enter your details on the confirmation page to restore access immediately.",
+      "tags": [
+        "security_notice",
+        "phishing"
+      ],
+      "actual": "Spam",
+      "latency_ms": 0.61,
+      "is_correct": true
+    },
+    {
+      "id": "S04",
+      "expected": "Spam",
+      "subject": "Payroll correction",
+      "body": "A payroll discrepancy requires urgent identity validation. Click here and verify your banking details before end of day to avoid delays.",
+      "tags": [
+        "banking",
+        "impersonation"
+      ],
+      "actual": "Spam",
+      "latency_ms": 0.53,
+      "is_correct": true
+    },
+    {
+      "id": "S05",
+      "expected": "Spam",
+      "subject": "Crypto promotion for selected users",
+      "body": "You qualify for a limited crypto giveaway. Complete your wallet verification and receive the bonus within one hour.",
+      "tags": [
+        "crypto",
+        "giveaway"
+      ],
+      "actual": "Spam",
+      "latency_ms": 805.55,
+      "is_correct": true
+    },
+    {
+      "id": "S06",
+      "expected": "Spam",
+      "subject": "Account suspension warning",
+      "body": "Your account may be suspended due to unusual activity. Use the secure portal and confirm your password reset details now.",
+      "tags": [
+        "suspension",
+        "password_reset"
+      ],
+      "actual": "Spam",
+      "latency_ms": 0.96,
+      "is_correct": true
+    },
+    {
+      "id": "S07",
+      "expected": "Spam",
+      "subject": "Important tax message",
+      "body": "A pending tax refund cannot be released until you validate your payment card and address through the secure confirmation page.",
+      "tags": [
+        "refund",
+        "fraud"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.78,
+      "is_correct": false
+    },
+    {
+      "id": "S08",
+      "expected": "Spam",
+      "subject": "Document shared with you",
+      "body": "A private document has been shared with you. Open the attachment and enable access so the encrypted content can be viewed.",
+      "tags": [
+        "attachment_bait",
+        "malicious"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1052.96,
+      "is_correct": false
+    },
+    {
+      "id": "S09",
+      "expected": "Spam",
+      "subject": "Delivery failed update",
+      "body": "We could not deliver your package. Confirm your address and pay the small redelivery fee using the verification link below.",
+      "tags": [
+        "delivery_scam",
+        "small_fee"
+      ],
+      "actual": "Spam",
+      "latency_ms": 790.12,
+      "is_correct": true
+    },
+    {
+      "id": "S10",
+      "expected": "Spam",
+      "subject": "Prize release department",
+      "body": "This is your final reminder from the prize release department. Act now to claim the funds waiting for you.",
+      "tags": [
+        "classic_spam",
+        "funds"
+      ],
+      "actual": "Spam",
+      "latency_ms": 750.65,
+      "is_correct": true
+    },
+    {
+      "id": "S11",
+      "expected": "Spam",
+      "subject": "Voice mail received",
+      "body": "You have a new secure voice message. Log in with your current email password to hear the recording immediately.",
+      "tags": [
+        "credential_harvest",
+        "voicemail"
+      ],
+      "actual": "Spam",
+      "latency_ms": 682.82,
+      "is_correct": true
+    },
+    {
+      "id": "S12",
+      "expected": "Spam",
+      "subject": "Compliance request",
+      "body": "We need to reconfirm your identity due to a policy review. Failure to respond today may result in restricted access.",
+      "tags": [
+        "policy",
+        "urgency"
+      ],
+      "actual": "Spam",
+      "latency_ms": 856.84,
+      "is_correct": true
+    },
+    {
+      "id": "S13",
+      "expected": "Spam",
+      "subject": "Urgent assistance needed",
+      "body": "I am stuck abroad and need a wire transfer quickly. Please reply before contacting anyone else because this is confidential.",
+      "tags": [
+        "impersonation",
+        "wire_transfer"
+      ],
+      "actual": "Finance",
+      "latency_ms": 3.55,
+      "is_correct": false
+    },
+    {
+      "id": "S14",
+      "expected": "Spam",
+      "subject": "Shared bonus information",
+      "body": "Open the secure file to see the confidential bonus schedule prepared for you. Immediate confirmation is required.",
+      "tags": [
+        "bait",
+        "confidential"
+      ],
+      "actual": "Spam",
+      "latency_ms": 816.5,
+      "is_correct": true
+    },
+    {
+      "id": "S15",
+      "expected": "Spam",
+      "subject": "Action required",
+      "body": "Our fraud team noticed a mismatch in your profile. Please confirm your identity, account number, and card details to continue.",
+      "tags": [
+        "fraud_team",
+        "identity"
+      ],
+      "actual": "Spam",
+      "latency_ms": 709.75,
+      "is_correct": true
+    },
+    {
+      "id": "S16",
+      "expected": "Spam",
+      "subject": "Loyalty payout",
+      "body": "Your loyalty payout is ready, but we must verify the beneficiary first. Click here and submit the required information.",
+      "tags": [
+        "payout",
+        "beneficiary"
+      ],
+      "actual": "Spam",
+      "latency_ms": 726.68,
+      "is_correct": true
+    },
+    {
+      "id": "S17",
+      "expected": "Spam",
+      "subject": "Lottery release office",
+      "body": "The lottery office completed processing your case. To receive the transfer, send your identification and banking details now.",
+      "tags": [
+        "lottery",
+        "banking"
+      ],
+      "actual": "Spam",
+      "latency_ms": 0.49,
+      "is_correct": true
+    },
+    {
+      "id": "F01",
+      "expected": "Finance",
+      "subject": "Your updated billing summary",
+      "body": "Your subscription renewal was processed successfully and the latest receipt is available. You can review the billing statement or update the payment method.",
+      "tags": [
+        "subscription",
+        "receipt"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.57,
+      "is_correct": true
+    },
+    {
+      "id": "F02",
+      "expected": "Finance",
+      "subject": "Invoice attached",
+      "body": "Please find the invoice for April attached. Payment is due in ten days and the transaction reference is listed below.",
+      "tags": [
+        "invoice",
+        "payment"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.42,
+      "is_correct": true
+    },
+    {
+      "id": "F03",
+      "expected": "Finance",
+      "subject": "Refund completed",
+      "body": "The refund for your canceled booking has been issued to the original credit card. It may take a few business days to appear.",
+      "tags": [
+        "refund",
+        "card"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.45,
+      "is_correct": true
+    },
+    {
+      "id": "F04",
+      "expected": "Finance",
+      "subject": "Bank alert",
+      "body": "A transfer from your savings account was completed this morning. Review the account balance and contact support if this was unexpected.",
+      "tags": [
+        "bank",
+        "account_balance"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.47,
+      "is_correct": true
+    },
+    {
+      "id": "F05",
+      "expected": "Finance",
+      "subject": "Expense reimbursement",
+      "body": "Your expense reimbursement was approved and the payment will be deposited this week. The receipt copies remain on file.",
+      "tags": [
+        "reimbursement",
+        "payment"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.44,
+      "is_correct": true
+    },
+    {
+      "id": "F06",
+      "expected": "Finance",
+      "subject": "Tax receipt",
+      "body": "Your donation tax receipt is ready for download. Keep this statement for your records.",
+      "tags": [
+        "tax",
+        "receipt"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.31,
+      "is_correct": true
+    },
+    {
+      "id": "F07",
+      "expected": "Finance",
+      "subject": "Card ending 1142",
+      "body": "We retried the charge after your card expiration date was updated. The transaction was successful on the second attempt.",
+      "tags": [
+        "charge",
+        "card"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1163.25,
+      "is_correct": true
+    },
+    {
+      "id": "F08",
+      "expected": "Finance",
+      "subject": "Wire transfer confirmation",
+      "body": "The wire transfer has been sent and should reach the beneficiary bank by tomorrow. Attached is the payment confirmation.",
+      "tags": [
+        "wire_transfer",
+        "confirmation"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1.02,
+      "is_correct": true
+    },
+    {
+      "id": "F09",
+      "expected": "Finance",
+      "subject": "Statement available",
+      "body": "Your monthly statement is now available in PDF format. It includes the annual fee and all posted transactions.",
+      "tags": [
+        "statement",
+        "monthly"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1.26,
+      "is_correct": true
+    },
+    {
+      "id": "F10",
+      "expected": "Finance",
+      "subject": "Deposit notice",
+      "body": "A deposit was credited to your account this afternoon. Review the balance and reference number inside your dashboard.",
+      "tags": [
+        "deposit",
+        "balance"
+      ],
+      "actual": "Finance",
+      "latency_ms": 938.94,
+      "is_correct": true
+    },
+    {
+      "id": "F11",
+      "expected": "Finance",
+      "subject": "Payment failed",
+      "body": "We could not process the renewal because the card on file was declined. Update billing details to avoid service interruption.",
+      "tags": [
+        "failed_payment",
+        "renewal"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.97,
+      "is_correct": true
+    },
+    {
+      "id": "F12",
+      "expected": "Finance",
+      "subject": "Receipt for membership",
+      "body": "This email confirms your membership payment and includes the receipt for bookkeeping purposes.",
+      "tags": [
+        "membership",
+        "receipt"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.68,
+      "is_correct": true
+    },
+    {
+      "id": "F13",
+      "expected": "Finance",
+      "subject": "Loan reminder",
+      "body": "Your next loan payment is scheduled for Tuesday. Please ensure funds are available in the connected bank account.",
+      "tags": [
+        "loan",
+        "payment"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.81,
+      "is_correct": true
+    },
+    {
+      "id": "F14",
+      "expected": "Finance",
+      "subject": "Billing adjustment",
+      "body": "A small billing adjustment has been applied after the duplicate charge review. The corrected total appears on the updated invoice.",
+      "tags": [
+        "adjustment",
+        "invoice"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.8,
+      "is_correct": true
+    },
+    {
+      "id": "F15",
+      "expected": "Finance",
+      "subject": "Payout processed",
+      "body": "The seller payout for last week's orders has been processed and will settle to your bank account soon.",
+      "tags": [
+        "payout",
+        "seller"
+      ],
+      "actual": "Finance",
+      "latency_ms": 777.99,
+      "is_correct": true
+    },
+    {
+      "id": "F16",
+      "expected": "Finance",
+      "subject": "Chargeback update",
+      "body": "The chargeback investigation concluded in your favor and the provisional credit is now permanent.",
+      "tags": [
+        "chargeback",
+        "credit"
+      ],
+      "actual": "Finance",
+      "latency_ms": 662.55,
+      "is_correct": true
+    },
+    {
+      "id": "F17",
+      "expected": "Finance",
+      "subject": "Renewal receipt",
+      "body": "Your annual plan renewed automatically. This message includes the receipt, billing date, and transaction ID.",
+      "tags": [
+        "renewal",
+        "subscription"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.78,
+      "is_correct": true
+    },
+    {
+      "id": "M01",
+      "expected": "Promotions",
+      "subject": "Member benefits unlocked this week",
+      "body": "You now have early sale pricing, free shipping, and an extra 20% off selected items. Your personalized offer expires soon.",
+      "tags": [
+        "member_benefits",
+        "discount"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.96,
+      "is_correct": true
+    },
+    {
+      "id": "M02",
+      "expected": "Promotions",
+      "subject": "Just for you",
+      "body": "Save big on products you viewed recently. Shop now and use the code inside before midnight.",
+      "tags": [
+        "shopping",
+        "code"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.66,
+      "is_correct": true
+    },
+    {
+      "id": "M03",
+      "expected": "Promotions",
+      "subject": "Newsletter: spring picks",
+      "body": "Our weekly newsletter includes editor recommendations, fresh arrivals, and limited-time deals curated for you.",
+      "tags": [
+        "newsletter",
+        "retail"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.79,
+      "is_correct": true
+    },
+    {
+      "id": "M04",
+      "expected": "Promotions",
+      "subject": "Upgrade your routine",
+      "body": "Discover the new collection and claim your exclusive offer. Unsubscribe anytime if these updates are not helpful.",
+      "tags": [
+        "unsubscribe",
+        "offer"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.81,
+      "is_correct": true
+    },
+    {
+      "id": "M05",
+      "expected": "Promotions",
+      "subject": "Account perk",
+      "body": "As a member, your account now includes bonus shopping credits and early access to the weekend sale.",
+      "tags": [
+        "account_language",
+        "sale"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 884.55,
+      "is_correct": true
+    },
+    {
+      "id": "M06",
+      "expected": "Promotions",
+      "subject": "Limited release",
+      "body": "This limited release is available to subscribers first. Buy now before stock runs out.",
+      "tags": [
+        "limited_time",
+        "shopping"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 867.86,
+      "is_correct": true
+    },
+    {
+      "id": "M07",
+      "expected": "Promotions",
+      "subject": "Back in stock",
+      "body": "The items from your wishlist are back in stock, and several are now 30% off for a short time.",
+      "tags": [
+        "wishlist",
+        "discount"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 909.69,
+      "is_correct": true
+    },
+    {
+      "id": "M08",
+      "expected": "Promotions",
+      "subject": "Travel deals",
+      "body": "Book now and unlock discounted weekend fares, hotel credits, and bonus points on select routes.",
+      "tags": [
+        "travel_offer",
+        "marketing"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 804.8,
+      "is_correct": true
+    },
+    {
+      "id": "M09",
+      "expected": "Promotions",
+      "subject": "Course launch",
+      "body": "Enrollment is open and early buyers receive a special offer plus bonus materials if they register today.",
+      "tags": [
+        "education_marketing",
+        "offer"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.79,
+      "is_correct": true
+    },
+    {
+      "id": "M10",
+      "expected": "Promotions",
+      "subject": "Special invitation",
+      "body": "You are invited to preview our new lineup and claim an exclusive coupon before public release.",
+      "tags": [
+        "invitation",
+        "coupon"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 846.18,
+      "is_correct": true
+    },
+    {
+      "id": "M11",
+      "expected": "Promotions",
+      "subject": "Beauty rewards",
+      "body": "Your rewards tier unlocks free samples, member-only pricing, and a limited promotion ending tonight.",
+      "tags": [
+        "rewards",
+        "pricing"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 763.35,
+      "is_correct": true
+    },
+    {
+      "id": "M12",
+      "expected": "Promotions",
+      "subject": "Streaming bundle",
+      "body": "Upgrade today and save with our bundle deal. This promotional rate applies only during the launch window.",
+      "tags": [
+        "subscription_marketing",
+        "bundle"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 759.91,
+      "is_correct": true
+    },
+    {
+      "id": "M13",
+      "expected": "Promotions",
+      "subject": "Exclusive offer inside",
+      "body": "Open this email to see today's exclusive offer and shop selected categories with extra savings.",
+      "tags": [
+        "exclusive_offer",
+        "retail"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.82,
+      "is_correct": true
+    },
+    {
+      "id": "M14",
+      "expected": "Promotions",
+      "subject": "Flash sale",
+      "body": "Our flash sale starts now. Use the attached promo code for same-day savings on featured products.",
+      "tags": [
+        "flash_sale",
+        "promo_code"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.75,
+      "is_correct": true
+    },
+    {
+      "id": "M15",
+      "expected": "Promotions",
+      "subject": "Your style update",
+      "body": "Pieces chosen for you are now on sale, and your member benefits include free shipping all week.",
+      "tags": [
+        "personalized_marketing",
+        "shipping"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 830.63,
+      "is_correct": true
+    },
+    {
+      "id": "M16",
+      "expected": "Promotions",
+      "subject": "Last chance",
+      "body": "This is your last chance to use your discount before it expires tonight. Shop now from the link below.",
+      "tags": [
+        "urgency",
+        "discount"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 2.14,
+      "is_correct": true
+    },
+    {
+      "id": "O01",
+      "expected": "Social",
+      "subject": "You have new activity waiting",
+      "body": "Someone mentioned you in a conversation, two people reacted to your recent post, and you have a new invitation from your network.",
+      "tags": [
+        "mentions",
+        "comments"
+      ],
+      "actual": "Social",
+      "latency_ms": 836.65,
+      "is_correct": true
+    },
+    {
+      "id": "O02",
+      "expected": "Social",
+      "subject": "Connection request",
+      "body": "A new professional connection wants to add you, and another person commented on your update.",
+      "tags": [
+        "linkedin_style",
+        "notification"
+      ],
+      "actual": "Social",
+      "latency_ms": 890.48,
+      "is_correct": true
+    },
+    {
+      "id": "O03",
+      "expected": "Social",
+      "subject": "Community digest",
+      "body": "Your community has new replies, one person tagged you, and a moderator highlighted your post.",
+      "tags": [
+        "community",
+        "tagged"
+      ],
+      "actual": "Social",
+      "latency_ms": 1.11,
+      "is_correct": true
+    },
+    {
+      "id": "O04",
+      "expected": "Social",
+      "subject": "Friend activity",
+      "body": "Three friends shared photos, one reacted to your story, and you have a pending friend request.",
+      "tags": [
+        "friends",
+        "story"
+      ],
+      "actual": "Social",
+      "latency_ms": 772.05,
+      "is_correct": true
+    },
+    {
+      "id": "O05",
+      "expected": "Social",
+      "subject": "You were mentioned",
+      "body": "You were mentioned in a thread and there are new comments waiting for your reply.",
+      "tags": [
+        "mentioned",
+        "thread"
+      ],
+      "actual": "Social",
+      "latency_ms": 690.04,
+      "is_correct": true
+    },
+    {
+      "id": "O06",
+      "expected": "Social",
+      "subject": "New followers",
+      "body": "Two accounts followed you this morning and one left a comment on your latest upload.",
+      "tags": [
+        "followers",
+        "comment"
+      ],
+      "actual": "Social",
+      "latency_ms": 739.83,
+      "is_correct": true
+    },
+    {
+      "id": "O07",
+      "expected": "Social",
+      "subject": "Invitation inside",
+      "body": "You have been invited to join a private group and someone responded to your post.",
+      "tags": [
+        "group_invite",
+        "post"
+      ],
+      "actual": "Social",
+      "latency_ms": 890.06,
+      "is_correct": true
+    },
+    {
+      "id": "O08",
+      "expected": "Social",
+      "subject": "Discussion update",
+      "body": "A discussion you joined has several new replies and another user quoted your message.",
+      "tags": [
+        "discussion",
+        "replies"
+      ],
+      "actual": "Social",
+      "latency_ms": 859.01,
+      "is_correct": true
+    },
+    {
+      "id": "O09",
+      "expected": "Social",
+      "subject": "Event reminder",
+      "body": "People in your network are attending the event, and one contact invited you to connect.",
+      "tags": [
+        "network",
+        "invite"
+      ],
+      "actual": "Social",
+      "latency_ms": 695.09,
+      "is_correct": true
+    },
+    {
+      "id": "O10",
+      "expected": "Social",
+      "subject": "Gaming community",
+      "body": "Your guild posted updates, a teammate mentioned you, and there are fresh reactions in chat.",
+      "tags": [
+        "gaming",
+        "community"
+      ],
+      "actual": "Social",
+      "latency_ms": 0.41,
+      "is_correct": true
+    },
+    {
+      "id": "O11",
+      "expected": "Social",
+      "subject": "Creator dashboard alert",
+      "body": "Subscribers commented on your latest upload and someone shared your post.",
+      "tags": [
+        "creator",
+        "engagement"
+      ],
+      "actual": "Social",
+      "latency_ms": 736.31,
+      "is_correct": true
+    },
+    {
+      "id": "O12",
+      "expected": "Social",
+      "subject": "New likes",
+      "body": "You received several likes on your recent photo and one friend tagged you in a memory.",
+      "tags": [
+        "likes",
+        "tagged"
+      ],
+      "actual": "Social",
+      "latency_ms": 869.39,
+      "is_correct": true
+    },
+    {
+      "id": "O13",
+      "expected": "Social",
+      "subject": "Club update",
+      "body": "The book club has new messages, a poll is open, and one member replied directly to you.",
+      "tags": [
+        "club",
+        "messages"
+      ],
+      "actual": "Social",
+      "latency_ms": 868.47,
+      "is_correct": true
+    },
+    {
+      "id": "O14",
+      "expected": "Social",
+      "subject": "Profile activity",
+      "body": "There is new profile activity since yesterday, including follows, comments, and mentions.",
+      "tags": [
+        "profile",
+        "platform"
+      ],
+      "actual": "Social",
+      "latency_ms": 763.39,
+      "is_correct": true
+    },
+    {
+      "id": "O15",
+      "expected": "Social",
+      "subject": "Invitation to connect",
+      "body": "A former colleague invited you to connect, and another person endorsed your skills.",
+      "tags": [
+        "professional_social",
+        "connect"
+      ],
+      "actual": "Social",
+      "latency_ms": 703.19,
+      "is_correct": true
+    },
+    {
+      "id": "O16",
+      "expected": "Social",
+      "subject": "Photo app notice",
+      "body": "Someone saved your photo, another user commented, and your account has new follower activity.",
+      "tags": [
+        "photo_app",
+        "followers"
+      ],
+      "actual": "Social",
+      "latency_ms": 767.42,
+      "is_correct": true
+    }
+  ]
+}

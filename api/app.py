@@ -36,6 +36,11 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 
+@app.teardown_request
+def close_db_connection(_exc):
+    db.close_conn()
+
+
 # ---------------------------------------------------------------------------
 # Auth helpers
 # ---------------------------------------------------------------------------
@@ -263,6 +268,30 @@ def stream_logs():
                 yield f"data: {json.dumps(msg)}\n\n"
         finally:
             api.log_handler.sse_handler.unsubscribe(q)
+
+    resp = Response(
+        stream_with_context(event_stream()),
+        content_type="text/event-stream",
+    )
+    resp.headers["Cache-Control"] = "no-cache"
+    resp.headers["X-Accel-Buffering"] = "no"
+    resp.headers["Access-Control-Allow-Origin"] = "*"
+    resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return resp
+
+
+@app.route("/messages/stream", methods=["GET"])
+@_require_auth
+def stream_messages(current_user: str):
+    def event_stream():
+        q = api.log_handler.user_event_broker.subscribe(current_user)
+        try:
+            yield f"data: {json.dumps({'type': 'connected'})}\n\n"
+            while True:
+                event = q.get()
+                yield f"data: {json.dumps(event)}\n\n"
+        finally:
+            api.log_handler.user_event_broker.unsubscribe(current_user, q)
 
     resp = Response(
         stream_with_context(event_stream()),

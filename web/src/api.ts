@@ -54,4 +54,5 @@ export const api = {
   deleteMessage: (id: number)       => req<void>('DELETE', `/messages/${id}`),
   toggleStar:    (id: number)       => req<{ is_starred: boolean }>('POST', `/messages/${id}/star`),
   getCategories: ()                 => req<string[]>('GET', '/messages/categories'),
+  messageStreamUrl: ()              => `http://localhost:8080/messages/stream?token=${encodeURIComponent(token())}`,
 };

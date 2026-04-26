@@ -1,6 +1,8 @@
 # config.py — Central configuration for the mail server
 # Change ports here if running as non-root (e.g. SMTP_PORT = 2525, POP3_PORT = 1100)
 
+from pathlib import Path
+
 SMTP_HOST = "0.0.0.0"
 SMTP_PORT = 2525
 
@@ -10,7 +12,8 @@ POP3_PORT = 1100
 API_HOST = "0.0.0.0"
 API_PORT = 8080
 
-DB_PATH = "mail.db"
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = str(BASE_DIR / "mail.db")
 
 # Local domain — only deliver mail addressed to this domain
 LOCAL_DOMAIN = "localhost"

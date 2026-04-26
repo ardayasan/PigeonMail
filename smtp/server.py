@@ -17,8 +17,26 @@ logger = logging.getLogger(__name__)
 
 # Lazy import to avoid circular dependency at module load time
 def _classify_async(msg_id: int, subject: str, body: str) -> None:
-    from ai.classifier import classify_async
+    from ai.ollama_classifier import classify_async
     classify_async(msg_id, subject, body)
+
+
+def _publish_message_event(msg_id: int, from_addr: str, to_addr: str, subject: str) -> None:
+    from api.log_handler import user_event_broker
+
+    payload = {
+        "type": "message_created",
+        "message_id": msg_id,
+        "from": from_addr,
+        "to": to_addr,
+        "subject": subject,
+    }
+
+    sender = from_addr.split("@", 1)[0].lower()
+    recipient = to_addr.split("@", 1)[0].lower()
+    user_event_broker.publish(recipient, payload)
+    if sender != recipient:
+        user_event_broker.publish(sender, payload)
 
 
 # ---------------------------------------------------------------------------
@@ -166,6 +184,7 @@ def _handle_client(conn: socket.socket, addr: tuple) -> None:
                                 "Stored msg id=%d from=%s to=%s subject=%r",
                                 msg_id, session.mail_from, recipient, subject,
                             )
+                            _publish_message_event(msg_id, session.mail_from, recipient, subject)
                             _classify_async(msg_id, subject, body)
 
                         send("250 OK: Message queued")

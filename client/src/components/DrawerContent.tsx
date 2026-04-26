@@ -12,7 +12,7 @@
  *  •  User footer with username + sign-out
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Platform,
   ScrollView,
@@ -26,8 +26,8 @@ import {
   DrawerContentComponentProps,
 } from '@react-navigation/drawer';
 import Svg, { Path, Circle, Line, Polygon, Polyline } from 'react-native-svg';
-import { getCategories } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useMailbox } from '../context/MailboxContext';
 import { Colors, CATEGORY_COLORS, Spacing, Typography, Radii } from '../theme';
 
 /* ── SVG Icon Components ── */
@@ -105,13 +105,7 @@ export default function DrawerContent({
   onSelectCategory,
 }: Props) {
   const { username, signOut } = useAuth();
-  const [categories, setCategories] = useState<string[]>([]);
-
-  useEffect(() => {
-    getCategories()
-      .then(setCategories)
-      .catch(() => {});
-  }, []);
+  const { categories } = useMailbox();
 
   const handleMailbox = (id: MailboxId) => {
     onSelectMailbox(id);

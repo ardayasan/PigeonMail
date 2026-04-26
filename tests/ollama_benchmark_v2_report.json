@@ -1,0 +1,1168 @@
+{
+  "total_cases": 60,
+  "total_correct": 50,
+  "total_accuracy": 0.8333,
+  "total_runtime_ms": 47020.71,
+  "english": {
+    "cases": 30,
+    "correct": 27,
+    "accuracy": 0.9,
+    "avg_latency_ms": 512.36,
+    "confusion": {
+      "Work": {
+        "Work": 5,
+        "Personal": 0,
+        "Spam": 0,
+        "Finance": 0,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Personal": {
+        "Work": 0,
+        "Personal": 4,
+        "Spam": 0,
+        "Finance": 1,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Spam": {
+        "Work": 0,
+        "Personal": 0,
+        "Spam": 3,
+        "Finance": 2,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Finance": {
+        "Work": 0,
+        "Personal": 0,
+        "Spam": 0,
+        "Finance": 5,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Promotions": {
+        "Work": 0,
+        "Personal": 0,
+        "Spam": 0,
+        "Finance": 0,
+        "Promotions": 5,
+        "Social": 0
+      },
+      "Social": {
+        "Work": 0,
+        "Personal": 0,
+        "Spam": 0,
+        "Finance": 0,
+        "Promotions": 0,
+        "Social": 5
+      }
+    },
+    "per_label": {
+      "Work": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "Personal": {
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.8889
+      },
+      "Spam": {
+        "precision": 1.0,
+        "recall": 0.6,
+        "f1": 0.75
+      },
+      "Finance": {
+        "precision": 0.625,
+        "recall": 1.0,
+        "f1": 0.7692
+      },
+      "Promotions": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "Social": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "wrong_cases": [
+      {
+        "id": "EN09",
+        "lang": "en",
+        "expected": "Personal",
+        "subject": "Small refund",
+        "body": "The cafe refunded the extra charge from brunch, so your share is even smaller now. Let us settle it next time we see each other.",
+        "tags": [
+          "refund_word",
+          "friends"
+        ],
+        "actual": "Finance",
+        "latency_ms": 0.91,
+        "is_correct": false
+      },
+      {
+        "id": "EN13",
+        "lang": "en",
+        "expected": "Spam",
+        "subject": "Urgent private request",
+        "body": "I am stuck abroad and need a wire transfer quickly. Please reply before speaking to anyone else because this is confidential.",
+        "tags": [
+          "impersonation",
+          "wire_transfer"
+        ],
+        "actual": "Finance",
+        "latency_ms": 0.5,
+        "is_correct": false
+      },
+      {
+        "id": "EN15",
+        "lang": "en",
+        "expected": "Spam",
+        "subject": "Tax refund release",
+        "body": "Your tax refund is pending, but we must validate your card details and identity before funds can be released.",
+        "tags": [
+          "refund",
+          "fraud"
+        ],
+        "actual": "Finance",
+        "latency_ms": 0.84,
+        "is_correct": false
+      }
+    ]
+  },
+  "turkish": {
+    "cases": 30,
+    "correct": 23,
+    "accuracy": 0.7667,
+    "avg_latency_ms": 1054.96,
+    "confusion": {
+      "Work": {
+        "Work": 4,
+        "Personal": 1,
+        "Spam": 0,
+        "Finance": 0,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Personal": {
+        "Work": 0,
+        "Personal": 5,
+        "Spam": 0,
+        "Finance": 0,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Spam": {
+        "Work": 0,
+        "Personal": 1,
+        "Spam": 4,
+        "Finance": 0,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Finance": {
+        "Work": 0,
+        "Personal": 1,
+        "Spam": 1,
+        "Finance": 3,
+        "Promotions": 0,
+        "Social": 0
+      },
+      "Promotions": {
+        "Work": 0,
+        "Personal": 0,
+        "Spam": 0,
+        "Finance": 0,
+        "Promotions": 5,
+        "Social": 0
+      },
+      "Social": {
+        "Work": 0,
+        "Personal": 3,
+        "Spam": 0,
+        "Finance": 0,
+        "Promotions": 0,
+        "Social": 2
+      }
+    },
+    "per_label": {
+      "Work": {
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.8889
+      },
+      "Personal": {
+        "precision": 0.4545,
+        "recall": 1.0,
+        "f1": 0.625
+      },
+      "Spam": {
+        "precision": 0.8,
+        "recall": 0.8,
+        "f1": 0.8
+      },
+      "Finance": {
+        "precision": 1.0,
+        "recall": 0.6,
+        "f1": 0.75
+      },
+      "Promotions": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "Social": {
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714
+      }
+    },
+    "wrong_cases": [
+      {
+        "id": "TR03",
+        "lang": "tr",
+        "expected": "Work",
+        "subject": "Seyahat notu",
+        "body": "Tren biletini aldim ama konferans giderleri kapanmadan once expense ozetiyle seyahat raporunu yuklemen gerekiyor.",
+        "tags": [
+          "travel",
+          "expense"
+        ],
+        "actual": "Personal",
+        "latency_ms": 1472.26,
+        "is_correct": false
+      },
+      {
+        "id": "TR13",
+        "lang": "tr",
+        "expected": "Spam",
+        "subject": "Acil yardim",
+        "body": "Yurt disinda kaldim ve acil havale gerekiyor. Kimseyle konusmadan bana doner misin, konu gizli.",
+        "tags": [
+          "impersonation",
+          "wire_transfer"
+        ],
+        "actual": "Personal",
+        "latency_ms": 1190.57,
+        "is_correct": false
+      },
+      {
+        "id": "TR19",
+        "lang": "tr",
+        "expected": "Finance",
+        "subject": "Ekstre hazir",
+        "body": "Aylik ekstrenizde yillik ucret ve son doneme ait tum islemler yer aliyor.",
+        "tags": [
+          "statement",
+          "monthly"
+        ],
+        "actual": "Personal",
+        "latency_ms": 1209.49,
+        "is_correct": false
+      },
+      {
+        "id": "TR20",
+        "lang": "tr",
+        "expected": "Finance",
+        "subject": "Chargeback sonucu",
+        "body": "Chargeback incelemesi lehinize sonuclandi ve gecici kredi artik kalici hale geldi.",
+        "tags": [
+          "chargeback",
+          "credit"
+        ],
+        "actual": "Spam",
+        "latency_ms": 771.38,
+        "is_correct": false
+      },
+      {
+        "id": "TR26",
+        "lang": "tr",
+        "expected": "Social",
+        "subject": "Yeni hareketler var",
+        "body": "Birisi sizi bir tartismada etiketledi, iki kisi gonderinize tepki verdi ve yeni bir baglanti isteginiz var.",
+        "tags": [
+          "mentions",
+          "network"
+        ],
+        "actual": "Personal",
+        "latency_ms": 1058.12,
+        "is_correct": false
+      },
+      {
+        "id": "TR27",
+        "lang": "tr",
+        "expected": "Social",
+        "subject": "Kulup guncellemesi",
+        "body": "Kitap kulubunde yeni mesajlar var, bir anket acildi ve bir uye yorumunuza dogrudan yanit verdi.",
+        "tags": [
+          "community",
+          "messages"
+        ],
+        "actual": "Personal",
+        "latency_ms": 1064.42,
+        "is_correct": false
+      },
+      {
+        "id": "TR29",
+        "lang": "tr",
+        "expected": "Social",
+        "subject": "Davet var",
+        "body": "Ozel bir gruba davet edildiniz ve biri dunki bir sohbette sizi etiketledi.",
+        "tags": [
+          "invite",
+          "tagged"
+        ],
+        "actual": "Personal",
+        "latency_ms": 1201.12,
+        "is_correct": false
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "EN01",
+      "lang": "en",
+      "expected": "Work",
+      "subject": "Tiny follow-up",
+      "body": "Sorry for sending this late. Can you review the customer notes, close the ticket, and confirm whether the milestone moves after tomorrow's meeting?",
+      "tags": [
+        "mixed_tone",
+        "customer"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.61,
+      "is_correct": true
+    },
+    {
+      "id": "EN02",
+      "lang": "en",
+      "expected": "Work",
+      "subject": "Dinner and draft",
+      "body": "Dinner was fun. Separately, I still need your comments on the draft proposal, the budget assumptions, and the delivery timeline before the client call.",
+      "tags": [
+        "personal_plus_work",
+        "proposal"
+      ],
+      "actual": "Work",
+      "latency_ms": 3665.19,
+      "is_correct": true
+    },
+    {
+      "id": "EN03",
+      "lang": "en",
+      "expected": "Work",
+      "subject": "Need a quick yes",
+      "body": "Can you approve the deployment window and leave feedback on the pull request? The backend team says the integration tests passed after the last fix.",
+      "tags": [
+        "engineering",
+        "approval"
+      ],
+      "actual": "Work",
+      "latency_ms": 1.27,
+      "is_correct": true
+    },
+    {
+      "id": "EN04",
+      "lang": "en",
+      "expected": "Work",
+      "subject": "Travel note",
+      "body": "I booked the train, but please upload the expense summary and trip report before finance closes reimbursement for the conference.",
+      "tags": [
+        "travel",
+        "expense"
+      ],
+      "actual": "Work",
+      "latency_ms": 2.92,
+      "is_correct": true
+    },
+    {
+      "id": "EN05",
+      "lang": "en",
+      "expected": "Work",
+      "subject": "One question",
+      "body": "Before I send the notes, do we still want the roadmap slide and the incident summary in tomorrow's office review?",
+      "tags": [
+        "office",
+        "review"
+      ],
+      "actual": "Work",
+      "latency_ms": 1.2,
+      "is_correct": true
+    },
+    {
+      "id": "EN06",
+      "lang": "en",
+      "expected": "Personal",
+      "subject": "Sunday update",
+      "body": "Are you still free on Sunday? I found the dinner receipt and your jacket, and I can bring both when we meet. No rush at all.",
+      "tags": [
+        "receipt",
+        "friends"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1013.99,
+      "is_correct": true
+    },
+    {
+      "id": "EN07",
+      "lang": "en",
+      "expected": "Personal",
+      "subject": "Train tickets",
+      "body": "I booked our train tickets for next month. We can sort out the money later, but mostly I just wanted to say I miss you.",
+      "tags": [
+        "ticket_word",
+        "romantic"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1142.17,
+      "is_correct": true
+    },
+    {
+      "id": "EN08",
+      "lang": "en",
+      "expected": "Personal",
+      "subject": "Quick favor",
+      "body": "Can you water the plants while I am away and leave the spare keys under the mat for my sister?",
+      "tags": [
+        "home",
+        "family"
+      ],
+      "actual": "Personal",
+      "latency_ms": 924.95,
+      "is_correct": true
+    },
+    {
+      "id": "EN09",
+      "lang": "en",
+      "expected": "Personal",
+      "subject": "Small refund",
+      "body": "The cafe refunded the extra charge from brunch, so your share is even smaller now. Let us settle it next time we see each other.",
+      "tags": [
+        "refund_word",
+        "friends"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.91,
+      "is_correct": false
+    },
+    {
+      "id": "EN10",
+      "lang": "en",
+      "expected": "Personal",
+      "subject": "How is your dad?",
+      "body": "No pressure to reply. I just wanted to ask how your dad is doing and whether you need anything this week.",
+      "tags": [
+        "care",
+        "family"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1122.32,
+      "is_correct": true
+    },
+    {
+      "id": "EN11",
+      "lang": "en",
+      "expected": "Spam",
+      "subject": "Security verification required",
+      "body": "We detected unusual activity on your profile. To avoid interruption, verify your information today through the secure portal and restore access immediately.",
+      "tags": [
+        "phishing",
+        "verification"
+      ],
+      "actual": "Spam",
+      "latency_ms": 1.24,
+      "is_correct": true
+    },
+    {
+      "id": "EN12",
+      "lang": "en",
+      "expected": "Spam",
+      "subject": "Package problem",
+      "body": "Your package delivery failed. Confirm your address and pay the redelivery fee using the secure link below.",
+      "tags": [
+        "delivery_scam",
+        "small_fee"
+      ],
+      "actual": "Spam",
+      "latency_ms": 756.73,
+      "is_correct": true
+    },
+    {
+      "id": "EN13",
+      "lang": "en",
+      "expected": "Spam",
+      "subject": "Urgent private request",
+      "body": "I am stuck abroad and need a wire transfer quickly. Please reply before speaking to anyone else because this is confidential.",
+      "tags": [
+        "impersonation",
+        "wire_transfer"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.5,
+      "is_correct": false
+    },
+    {
+      "id": "EN14",
+      "lang": "en",
+      "expected": "Spam",
+      "subject": "Document shared",
+      "body": "A confidential file was shared with you. Open the attachment and enable access so the encrypted document can be viewed.",
+      "tags": [
+        "attachment_bait",
+        "malicious"
+      ],
+      "actual": "Spam",
+      "latency_ms": 949.4,
+      "is_correct": true
+    },
+    {
+      "id": "EN15",
+      "lang": "en",
+      "expected": "Spam",
+      "subject": "Tax refund release",
+      "body": "Your tax refund is pending, but we must validate your card details and identity before funds can be released.",
+      "tags": [
+        "refund",
+        "fraud"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.84,
+      "is_correct": false
+    },
+    {
+      "id": "EN16",
+      "lang": "en",
+      "expected": "Finance",
+      "subject": "Billing summary",
+      "body": "Your annual plan renewed successfully. The receipt, billing date, and transaction ID are available in your account.",
+      "tags": [
+        "subscription",
+        "receipt"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.79,
+      "is_correct": true
+    },
+    {
+      "id": "EN17",
+      "lang": "en",
+      "expected": "Finance",
+      "subject": "Invoice enclosed",
+      "body": "Please find the invoice attached. Payment is due within ten days and the bank reference appears at the bottom.",
+      "tags": [
+        "invoice",
+        "payment"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.78,
+      "is_correct": true
+    },
+    {
+      "id": "EN18",
+      "lang": "en",
+      "expected": "Finance",
+      "subject": "Refund complete",
+      "body": "The refund for your canceled booking has been issued to the original credit card and should appear within a few business days.",
+      "tags": [
+        "refund",
+        "card"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1.28,
+      "is_correct": true
+    },
+    {
+      "id": "EN19",
+      "lang": "en",
+      "expected": "Finance",
+      "subject": "Statement ready",
+      "body": "Your monthly statement includes the annual fee and all posted transactions for the last cycle.",
+      "tags": [
+        "statement",
+        "monthly"
+      ],
+      "actual": "Finance",
+      "latency_ms": 0.37,
+      "is_correct": true
+    },
+    {
+      "id": "EN20",
+      "lang": "en",
+      "expected": "Finance",
+      "subject": "Chargeback result",
+      "body": "The chargeback investigation was resolved in your favor and the provisional credit is now permanent.",
+      "tags": [
+        "chargeback",
+        "credit"
+      ],
+      "actual": "Finance",
+      "latency_ms": 600.54,
+      "is_correct": true
+    },
+    {
+      "id": "EN21",
+      "lang": "en",
+      "expected": "Promotions",
+      "subject": "Member perks unlocked",
+      "body": "You now have free shipping, bonus shopping credits, and an extra 20% off selected items this week only.",
+      "tags": [
+        "discount",
+        "member_benefits"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 823.94,
+      "is_correct": true
+    },
+    {
+      "id": "EN22",
+      "lang": "en",
+      "expected": "Promotions",
+      "subject": "Back in stock",
+      "body": "Items from your wishlist are back in stock, and several are now on sale for a limited time.",
+      "tags": [
+        "wishlist",
+        "sale"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.39,
+      "is_correct": true
+    },
+    {
+      "id": "EN23",
+      "lang": "en",
+      "expected": "Promotions",
+      "subject": "Travel deal",
+      "body": "Book now to unlock discounted fares, hotel credits, and bonus points on selected routes.",
+      "tags": [
+        "travel_offer",
+        "marketing"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.33,
+      "is_correct": true
+    },
+    {
+      "id": "EN24",
+      "lang": "en",
+      "expected": "Promotions",
+      "subject": "Exclusive offer",
+      "body": "Use the code inside and shop now before this exclusive offer expires at midnight.",
+      "tags": [
+        "promo_code",
+        "urgency"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.31,
+      "is_correct": true
+    },
+    {
+      "id": "EN25",
+      "lang": "en",
+      "expected": "Promotions",
+      "subject": "Course launch",
+      "body": "Enrollment is open and early buyers receive a special offer plus bonus materials if they register today.",
+      "tags": [
+        "education_marketing",
+        "offer"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 0.38,
+      "is_correct": true
+    },
+    {
+      "id": "EN26",
+      "lang": "en",
+      "expected": "Social",
+      "subject": "New activity waiting",
+      "body": "Someone mentioned you in a discussion, two people reacted to your recent post, and you have a connection request.",
+      "tags": [
+        "mentions",
+        "network"
+      ],
+      "actual": "Social",
+      "latency_ms": 865.71,
+      "is_correct": true
+    },
+    {
+      "id": "EN27",
+      "lang": "en",
+      "expected": "Social",
+      "subject": "Club update",
+      "body": "The book club has new messages, a poll is open, and one member replied directly to your comment.",
+      "tags": [
+        "community",
+        "messages"
+      ],
+      "actual": "Social",
+      "latency_ms": 961.33,
+      "is_correct": true
+    },
+    {
+      "id": "EN28",
+      "lang": "en",
+      "expected": "Social",
+      "subject": "New followers",
+      "body": "Two accounts followed you this morning and another user commented on your latest photo.",
+      "tags": [
+        "followers",
+        "comment"
+      ],
+      "actual": "Social",
+      "latency_ms": 860.14,
+      "is_correct": true
+    },
+    {
+      "id": "EN29",
+      "lang": "en",
+      "expected": "Social",
+      "subject": "Invitation inside",
+      "body": "You were invited to join a private group and someone tagged you in a conversation from yesterday.",
+      "tags": [
+        "invite",
+        "tagged"
+      ],
+      "actual": "Social",
+      "latency_ms": 804.79,
+      "is_correct": true
+    },
+    {
+      "id": "EN30",
+      "lang": "en",
+      "expected": "Social",
+      "subject": "Profile activity",
+      "body": "There is new profile activity since yesterday, including follows, comments, and mentions.",
+      "tags": [
+        "platform",
+        "notification"
+      ],
+      "actual": "Social",
+      "latency_ms": 865.4,
+      "is_correct": true
+    },
+    {
+      "id": "TR01",
+      "lang": "tr",
+      "expected": "Work",
+      "subject": "Kucuk bir hatirlatma",
+      "body": "Rahatsiz ediyorum ama yarinki toplantidan once musteri notlarini guncelleyip acik ticket icin yorum birakabilir misin? Milestone kayabilir.",
+      "tags": [
+        "mixed_tone",
+        "customer"
+      ],
+      "actual": "Work",
+      "latency_ms": 0.55,
+      "is_correct": true
+    },
+    {
+      "id": "TR02",
+      "lang": "tr",
+      "expected": "Work",
+      "subject": "Aksamdan once",
+      "body": "Aksam gorusuruz. Bu arada pull request uzerindeki yorumlarini ve deploy plani icin son onayi bugun iletebilir misin?",
+      "tags": [
+        "engineering",
+        "approval"
+      ],
+      "actual": "Work",
+      "latency_ms": 1106.62,
+      "is_correct": true
+    },
+    {
+      "id": "TR03",
+      "lang": "tr",
+      "expected": "Work",
+      "subject": "Seyahat notu",
+      "body": "Tren biletini aldim ama konferans giderleri kapanmadan once expense ozetiyle seyahat raporunu yuklemen gerekiyor.",
+      "tags": [
+        "travel",
+        "expense"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1472.26,
+      "is_correct": false
+    },
+    {
+      "id": "TR04",
+      "lang": "tr",
+      "expected": "Work",
+      "subject": "Taslak hakkinda",
+      "body": "Taslakta butce varsayimlari, teslim tarihi ve musteri sunumu icin agenda kismini netlestirmemiz lazim.",
+      "tags": [
+        "proposal",
+        "client"
+      ],
+      "actual": "Work",
+      "latency_ms": 1642.95,
+      "is_correct": true
+    },
+    {
+      "id": "TR05",
+      "lang": "tr",
+      "expected": "Work",
+      "subject": "Kisa bir soru",
+      "body": "Backend ekibi entegrasyon testlerinin gectigini soyledi. Sprint kapsamini ve kalan task lari bugun netlestirelim mi?",
+      "tags": [
+        "backend",
+        "sprint"
+      ],
+      "actual": "Work",
+      "latency_ms": 971.49,
+      "is_correct": true
+    },
+    {
+      "id": "TR06",
+      "lang": "tr",
+      "expected": "Personal",
+      "subject": "Pazar plani",
+      "body": "Pazar musait misin? Gecen haftaki aksam yemeginin fisini buldum, montun da bende kalmis. Gorusunce hallederiz, hic acelesi yok.",
+      "tags": [
+        "receipt",
+        "friends"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1229.98,
+      "is_correct": true
+    },
+    {
+      "id": "TR07",
+      "lang": "tr",
+      "expected": "Personal",
+      "subject": "Biletler",
+      "body": "Onumuzdeki ay icin tren biletlerini aldim. Parasini sonra konusuruz, asil sadece seni ozledigimi soylemek istedim.",
+      "tags": [
+        "ticket_word",
+        "romantic"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1274.17,
+      "is_correct": true
+    },
+    {
+      "id": "TR08",
+      "lang": "tr",
+      "expected": "Personal",
+      "subject": "Kucuk bir rica",
+      "body": "Ben yokken cicekleri sular misin? Kardesim gelince yedek anahtari da ona birakman gerekecek.",
+      "tags": [
+        "home",
+        "family"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1185.11,
+      "is_correct": true
+    },
+    {
+      "id": "TR09",
+      "lang": "tr",
+      "expected": "Personal",
+      "subject": "Iade oldu",
+      "body": "Brunch ta fazla cekilen tutari kafe iade etti. Senin payin daha da azaldi, bir dahaki gorusmemizde hallederiz.",
+      "tags": [
+        "refund_word",
+        "friends"
+      ],
+      "actual": "Personal",
+      "latency_ms": 951.92,
+      "is_correct": true
+    },
+    {
+      "id": "TR10",
+      "lang": "tr",
+      "expected": "Personal",
+      "subject": "Baban nasil?",
+      "body": "Donmek zorunda degilsin, sadece babanin nasil oldugunu ve bu hafta bir seye ihtiyacin olup olmadigini sormak istedim.",
+      "tags": [
+        "care",
+        "family"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1244.93,
+      "is_correct": true
+    },
+    {
+      "id": "TR11",
+      "lang": "tr",
+      "expected": "Spam",
+      "subject": "Dogrulama gerekli",
+      "body": "Hesabinizda siradisi hareket tespit edildi. Erisimin kesilmemesi icin bilgilerinizi bugun guvenli portal uzerinden dogrulayin.",
+      "tags": [
+        "phishing",
+        "verification"
+      ],
+      "actual": "Spam",
+      "latency_ms": 849.16,
+      "is_correct": true
+    },
+    {
+      "id": "TR12",
+      "lang": "tr",
+      "expected": "Spam",
+      "subject": "Kargo sorunu",
+      "body": "Paketiniz teslim edilemedi. Adresinizi dogrulayip yeniden teslimat ucretini asagidaki linkten odeyin.",
+      "tags": [
+        "delivery_scam",
+        "small_fee"
+      ],
+      "actual": "Spam",
+      "latency_ms": 748.46,
+      "is_correct": true
+    },
+    {
+      "id": "TR13",
+      "lang": "tr",
+      "expected": "Spam",
+      "subject": "Acil yardim",
+      "body": "Yurt disinda kaldim ve acil havale gerekiyor. Kimseyle konusmadan bana doner misin, konu gizli.",
+      "tags": [
+        "impersonation",
+        "wire_transfer"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1190.57,
+      "is_correct": false
+    },
+    {
+      "id": "TR14",
+      "lang": "tr",
+      "expected": "Spam",
+      "subject": "Belge paylasildi",
+      "body": "Size gizli bir dosya paylasildi. Sifreli icerigi gorebilmek icin eki acip erisimi etkinlestirin.",
+      "tags": [
+        "attachment_bait",
+        "malicious"
+      ],
+      "actual": "Spam",
+      "latency_ms": 920.76,
+      "is_correct": true
+    },
+    {
+      "id": "TR15",
+      "lang": "tr",
+      "expected": "Spam",
+      "subject": "Vergi iadesi",
+      "body": "Vergi iadeniz hazir ancak kart bilgileriniz ve kimliginiz dogrulanmadan odeme serbest birakilamaz.",
+      "tags": [
+        "refund",
+        "fraud"
+      ],
+      "actual": "Spam",
+      "latency_ms": 1193.97,
+      "is_correct": true
+    },
+    {
+      "id": "TR16",
+      "lang": "tr",
+      "expected": "Finance",
+      "subject": "Faturalandirma ozeti",
+      "body": "Yillik planiniz basariyla yenilendi. Fis, faturalandirma tarihi ve islem kimligi hesabinizda hazir.",
+      "tags": [
+        "subscription",
+        "receipt"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1311.27,
+      "is_correct": true
+    },
+    {
+      "id": "TR17",
+      "lang": "tr",
+      "expected": "Finance",
+      "subject": "Fatura ektedir",
+      "body": "Nisan ayina ait fatura ektedir. Odeme on gun icinde yapilmali ve banka referansi altta yer aliyor.",
+      "tags": [
+        "invoice",
+        "payment"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1018.1,
+      "is_correct": true
+    },
+    {
+      "id": "TR18",
+      "lang": "tr",
+      "expected": "Finance",
+      "subject": "Iade tamamlandi",
+      "body": "Iptal edilen rezervasyonunuzun iadesi orijinal kredi kartina yansitildi. Birkac is gunu icinde gorunur.",
+      "tags": [
+        "refund",
+        "card"
+      ],
+      "actual": "Finance",
+      "latency_ms": 1076.91,
+      "is_correct": true
+    },
+    {
+      "id": "TR19",
+      "lang": "tr",
+      "expected": "Finance",
+      "subject": "Ekstre hazir",
+      "body": "Aylik ekstrenizde yillik ucret ve son doneme ait tum islemler yer aliyor.",
+      "tags": [
+        "statement",
+        "monthly"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1209.49,
+      "is_correct": false
+    },
+    {
+      "id": "TR20",
+      "lang": "tr",
+      "expected": "Finance",
+      "subject": "Chargeback sonucu",
+      "body": "Chargeback incelemesi lehinize sonuclandi ve gecici kredi artik kalici hale geldi.",
+      "tags": [
+        "chargeback",
+        "credit"
+      ],
+      "actual": "Spam",
+      "latency_ms": 771.38,
+      "is_correct": false
+    },
+    {
+      "id": "TR21",
+      "lang": "tr",
+      "expected": "Promotions",
+      "subject": "Uyelik avantaji",
+      "body": "Bu hafta secili urunlerde ucretsiz kargo, bonus alisveris kredisi ve ekstra yuzde yirmi indirim sizin icin aktif.",
+      "tags": [
+        "discount",
+        "member_benefits"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 969.08,
+      "is_correct": true
+    },
+    {
+      "id": "TR22",
+      "lang": "tr",
+      "expected": "Promotions",
+      "subject": "Tekrar stokta",
+      "body": "Favorilerinize eklediginiz urunler yeniden stokta ve kisa sureligine indirimde.",
+      "tags": [
+        "wishlist",
+        "sale"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 791.24,
+      "is_correct": true
+    },
+    {
+      "id": "TR23",
+      "lang": "tr",
+      "expected": "Promotions",
+      "subject": "Seyahat firsati",
+      "body": "Simdi rezervasyon yapin, secili rotalarda indirimli bilet, otel kredisi ve bonus puan kazanin.",
+      "tags": [
+        "travel_offer",
+        "marketing"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 921.93,
+      "is_correct": true
+    },
+    {
+      "id": "TR24",
+      "lang": "tr",
+      "expected": "Promotions",
+      "subject": "Size ozel teklif",
+      "body": "Icindeki kodu kullanarak gece yarisina kadar gecerli bu ozel teklifle alisveris yapin.",
+      "tags": [
+        "promo_code",
+        "urgency"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 1187.62,
+      "is_correct": true
+    },
+    {
+      "id": "TR25",
+      "lang": "tr",
+      "expected": "Promotions",
+      "subject": "Kurs kayitlari",
+      "body": "Erken kayit olanlar icin ozel teklif ve bonus icerikler hazir, bugun kaydolursaniz avantajlardan yararlanirsiniz.",
+      "tags": [
+        "education_marketing",
+        "offer"
+      ],
+      "actual": "Promotions",
+      "latency_ms": 1020.39,
+      "is_correct": true
+    },
+    {
+      "id": "TR26",
+      "lang": "tr",
+      "expected": "Social",
+      "subject": "Yeni hareketler var",
+      "body": "Birisi sizi bir tartismada etiketledi, iki kisi gonderinize tepki verdi ve yeni bir baglanti isteginiz var.",
+      "tags": [
+        "mentions",
+        "network"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1058.12,
+      "is_correct": false
+    },
+    {
+      "id": "TR27",
+      "lang": "tr",
+      "expected": "Social",
+      "subject": "Kulup guncellemesi",
+      "body": "Kitap kulubunde yeni mesajlar var, bir anket acildi ve bir uye yorumunuza dogrudan yanit verdi.",
+      "tags": [
+        "community",
+        "messages"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1064.42,
+      "is_correct": false
+    },
+    {
+      "id": "TR28",
+      "lang": "tr",
+      "expected": "Social",
+      "subject": "Yeni takipciler",
+      "body": "Bu sabah iki hesap sizi takip etti ve baska bir kullanici son fotografiniza yorum birakti.",
+      "tags": [
+        "followers",
+        "comment"
+      ],
+      "actual": "Social",
+      "latency_ms": 1014.6,
+      "is_correct": true
+    },
+    {
+      "id": "TR29",
+      "lang": "tr",
+      "expected": "Social",
+      "subject": "Davet var",
+      "body": "Ozel bir gruba davet edildiniz ve biri dunki bir sohbette sizi etiketledi.",
+      "tags": [
+        "invite",
+        "tagged"
+      ],
+      "actual": "Personal",
+      "latency_ms": 1201.12,
+      "is_correct": false
+    },
+    {
+      "id": "TR30",
+      "lang": "tr",
+      "expected": "Social",
+      "subject": "Profil etkinligi",
+      "body": "Dunden beri profilinizde yeni takipler, yorumlar ve mention lar dahil hareketlilik var.",
+      "tags": [
+        "platform",
+        "notification"
+      ],
+      "actual": "Social",
+      "latency_ms": 1050.22,
+      "is_correct": true
+    }
+  ]
+}

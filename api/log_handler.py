@@ -2,6 +2,7 @@ import logging
 import queue
 import os
 import sys
+from collections import defaultdict
 
 class MemoryLogQueue(logging.Handler):
     def __init__(self, sse_queue):
@@ -40,8 +41,38 @@ class GlobalSSEHandler(logging.Handler):
         if q in self.queues:
             self.queues.remove(q)
 
+
+class UserEventBroker:
+    """Fan out lightweight per-user events to SSE subscribers."""
+
+    def __init__(self):
+        self.queues_by_user = defaultdict(list)
+
+    def publish(self, username: str, event: dict) -> None:
+        for q in self.queues_by_user[username.lower()][:]:
+            try:
+                q.put_nowait(event)
+            except queue.Full:
+                pass
+
+    def subscribe(self, username: str):
+        q = queue.Queue(maxsize=100)
+        self.queues_by_user[username.lower()].append(q)
+        return q
+
+    def unsubscribe(self, username: str, q) -> None:
+        username = username.lower()
+        queues = self.queues_by_user.get(username)
+        if not queues:
+            return
+        if q in queues:
+            queues.remove(q)
+        if not queues:
+            self.queues_by_user.pop(username, None)
+
 # This will hold the memory-based log queue for the SSE stream
 sse_handler = GlobalSSEHandler()
+user_event_broker = UserEventBroker()
 
 def setup_logging():
     """

@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -14,12 +15,15 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { sendMessage } from '../api/client';
+import { useMailbox } from '../context/MailboxContext';
 import { Colors, Radii, Spacing, Typography } from '../theme';
 
 export default function ComposeScreen({ route, navigation }: any) {
+  const { syncMailboxMeta, triggerRefresh } = useMailbox();
   const prefill = route.params ?? {};
   const [to, setTo] = useState<string>(prefill.to ?? '');
   const [subject, setSubject] = useState<string>(prefill.subject ?? '');
@@ -34,6 +38,8 @@ export default function ComposeScreen({ route, navigation }: any) {
     setSending(true);
     try {
       await sendMessage(to.trim().toLowerCase(), subject.trim(), body.trim());
+      await syncMailboxMeta();
+      triggerRefresh();
       Alert.alert('Sent', 'Your message has been delivered.', [
         { text: 'OK', onPress: () => navigation.goBack() },
       ]);
@@ -45,6 +51,7 @@ export default function ComposeScreen({ route, navigation }: any) {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -65,7 +72,11 @@ export default function ComposeScreen({ route, navigation }: any) {
         </View>
       </View>
 
-      <ScrollView style={styles.scroll} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        style={styles.scroll}
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+      >
         {/* To field */}
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>To</Text>
@@ -132,6 +143,7 @@ export default function ComposeScreen({ route, navigation }: any) {
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 

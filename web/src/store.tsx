@@ -128,6 +128,8 @@ export const useMail = () => useContext(MailCtx);
 
 export function MailProvider({ children }: { children: React.ReactNode }) {
   const [s, dispatch] = useReducer(reducer, init);
+  const loadMessagesRef = useRef<(() => Promise<void>) | null>(null);
+  const reloadTimerRef = useRef<number | null>(null);
 
   /* Restore session */
   useEffect(() => {
@@ -151,6 +153,34 @@ export function MailProvider({ children }: { children: React.ReactNode }) {
     sse.onerror = () => {};
     return () => sse.close();
   }, []);
+
+  useEffect(() => {
+    if (!s.user) return;
+
+    const sse = new EventSource(api.messageStreamUrl());
+    sse.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data?.type === 'message_created' || data?.type === 'message_updated') {
+          if (reloadTimerRef.current !== null) window.clearTimeout(reloadTimerRef.current);
+          reloadTimerRef.current = window.setTimeout(() => {
+            loadMessagesRef.current?.().catch(() => {});
+            reloadTimerRef.current = null;
+          }, 250);
+        }
+      } catch {
+        // Ignore malformed event payloads and keep the stream alive.
+      }
+    };
+    sse.onerror = () => {};
+    return () => {
+      sse.close();
+      if (reloadTimerRef.current !== null) {
+        window.clearTimeout(reloadTimerRef.current);
+        reloadTimerRef.current = null;
+      }
+    };
+  }, [s.user]);
 
   /* Reload messages when mailbox / category changes */
   useEffect(() => {
@@ -206,6 +236,10 @@ export function MailProvider({ children }: { children: React.ReactNode }) {
       dispatch({ type: 'SET_LOADING_MSGS', payload: false });
     }
   }, [s.mailbox, s.category]);
+
+  useEffect(() => {
+    loadMessagesRef.current = loadMessages;
+  }, [loadMessages]);
 
   const selectMessage = useCallback(async (id: number) => {
     dispatch({ type: 'SELECT_MSG', payload: { id, msg: null } });
