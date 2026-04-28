@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = str(BASE_DIR / "mail.db")
 
 # Local domain — only deliver mail addressed to this domain
-LOCAL_DOMAIN = "localhost"
+LOCAL_DOMAIN = "pigeon.local"
 
 # Maximum message size in bytes (10 MB)
 MAX_MESSAGE_SIZE = 10 * 1024 * 1024
